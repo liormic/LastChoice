@@ -8,6 +8,8 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.android.lior.lastchoice.R;
@@ -19,10 +21,9 @@ import java.net.URL;
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String> {
 
     private EditText query;
-    private static String queryString="";
-    private static int LOADERID=3233;
-
-
+    private static String queryString = "";
+    private static int LOADERID = 3233;
+    private Button makeQueryButton;
 
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -30,29 +31,32 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        query =(EditText) findViewById(R.id.Query);
-        getSupportLoaderManager().initLoader(LOADERID,null, this);
-
+        query = (EditText) findViewById(R.id.Query);
+        makeQueryButton = (Button) findViewById(R.id.button);
+        getSupportLoaderManager().initLoader(LOADERID, null, this);
 
 
     }
-
-
 
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public void performQuery(){
-        queryString=query.getText().toString();
+    public void performQuery() {
+        queryString = query.getText().toString();
         URL searchQuery = NetworkUtil.buildUrl(queryString);
         Bundle bundle = new Bundle();
-        bundle.putString("SEARCH_QUERY_EXTRA",searchQuery.toString());
+        bundle.putString("SEARCH_QUERY_EXTRA", searchQuery.toString());
         LoaderManager loaderManager = getSupportLoaderManager();
-        Loader<String> searchLoader =loaderManager.getLoader(LOADERID);
-        if(searchLoader==null){
-            loaderManager.initLoader(LOADERID,bundle,this);
-        }
+        Loader<String> searchLoader = loaderManager.getLoader(LOADERID);
+        if (searchLoader == null) {
+            loaderManager.initLoader(LOADERID, bundle, this);
+        }else
 
+        {
+            loaderManager.restartLoader(LOADERID, bundle, this);
+
+        }
     }
+
     @Override
     public Loader<String> onCreateLoader(int i, final Bundle bundle) {
         return new AsyncTaskLoader<String>(this) {
@@ -69,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
             @Override
             public String loadInBackground() {
-                String searchQueryUrl = bundle.getString("EARCH_QUERY_EXTRA");
+                String searchQueryUrl = bundle.getString("SEARCH_QUERY_EXTRA");
                 if(searchQueryUrl ==null || TextUtils.isEmpty(searchQueryUrl)){
                     return null;
                 }
@@ -101,4 +105,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public void buttonClick(View view) {
+        performQuery();
+    }
 }

@@ -29,7 +29,7 @@ public class NetworkUtil {
     private static final String LIMIT_PARAM="limit";
     private static final String limit = "5";
     private static final String APIKEY_PARAM = "k";
-    private static final String api_key = "294364-LastTast-KCOUK478";
+    private static final String api_key = "294364-LastTast-AEUE33KD";
     private static final String VERBOSE_PARAM = "verbose";
     private static final String verbose = "1";
 

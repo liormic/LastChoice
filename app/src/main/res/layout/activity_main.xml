@@ -18,4 +18,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="2dp" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="buttonClick"
+        android:text="Button"
+        tools:ignore="OnClick" />
 </LinearLayout>

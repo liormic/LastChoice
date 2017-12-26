@@ -7,6 +7,7 @@ import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
@@ -19,32 +20,39 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class NetworkUtil {
     private static final String TAG = NetworkUtil.class.getSimpleName();
-    private static final String BASE_URL = "https://tastedive.com/api/similar";
+    private static final String BASE_URL_TASTE = "https://tastedive.com/api/similar";
     private static final String format = "JSON";
-    private static final String QUERY_PARAM = "q";
-    private static final String TYPE_PARAM = "type";
-    private static final String type = "movie";
-    private static final String info = "1";
-    private static final String INFO_PARAM = "info";
-    private static final String LIMIT_PARAM="limit";
-    private static final String limit = "5";
-    private static final String APIKEY_PARAM = "k";
-    private static final String api_key = "294364-LastTast-AEUE33KD";
-    private static final String VERBOSE_PARAM = "verbose";
-    private static final String verbose = "1";
+    private static final String QUERY_PARAM_TASTE = "q";
+    private static final String TYPE_PARAM_TASTE = "type";
+    private static final String typetaste = "movie";
+    private static final String infotaste = "1";
+    private static final String INFO_PARAM_TASTE= "info";
+    private static final String LIMIT_PARAM_TASTE="limit";
+    private static final String limittaste = "5";
+    private static final String APIKEY_PARAM_TASTE= "k";
+    private static final String api_key_taste = "294364-LastTast-AEUE33KD";
+    private static final String VERBOSE_PARAM_TASTE = "verbose";
+    private static final String verbosetaste = "1";
+
+    private static final String BASE_URL_EXTRA = "http://www.omdbapi.com/";
+    private static final String QUERY_PARAM_EXTRA = "t";
+    private static final String api_key_extra = "b06448ae";
+    private static final String APIKEY_PARAM_EXTRA= "apikey";
+
+
 
 
 
     //https://tastedive.com/api/similar?q=snow+crash,book:way+of+kings&type=books&limit=5&k=294364-LastTast-AEUE33KD
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public static URL buildUrl(String query) {
-        Uri apiRequestUri = Uri.parse(BASE_URL).buildUpon()
-                .appendQueryParameter(QUERY_PARAM, query)
-                .appendQueryParameter(TYPE_PARAM, type)
-                .appendQueryParameter(LIMIT_PARAM,limit)
-                .appendQueryParameter(INFO_PARAM, info)
-                .appendQueryParameter(VERBOSE_PARAM, verbose)
-                .appendQueryParameter(APIKEY_PARAM, api_key)
+    public static URL buildUrlTaste(String query) {
+        Uri apiRequestUri = Uri.parse(BASE_URL_TASTE).buildUpon()
+                .appendQueryParameter(QUERY_PARAM_TASTE, query)
+                .appendQueryParameter(TYPE_PARAM_TASTE, typetaste)
+                .appendQueryParameter(LIMIT_PARAM_TASTE,limittaste)
+                .appendQueryParameter(INFO_PARAM_TASTE, infotaste)
+                .appendQueryParameter(VERBOSE_PARAM_TASTE, verbosetaste)
+                .appendQueryParameter(APIKEY_PARAM_TASTE, api_key_taste)
                 .build();
         try {
             URL apiRequestUrl = new URL(apiRequestUri.toString());
@@ -55,9 +63,42 @@ public class NetworkUtil {
             return null;
         }
     }
+    
+    public static URL buildUrlExtraData(String query){
+        Uri apiRequestUriExtra = Uri.parse(BASE_URL_EXTRA).buildUpon()
+                .appendQueryParameter(QUERY_PARAM_EXTRA,query)
+                .appendQueryParameter(APIKEY_PARAM_EXTRA,api_key_extra)
+                .build();
+        try{
+            URL apiRequestUrlExtra = new URL(apiRequestUriExtra.toString());
+            Log.v(TAG,"URLEXTRA"+apiRequestUrlExtra);
+            return apiRequestUrlExtra;
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            return null;
+        }
 
-    public static String getResponsefromUrl(URL url) throws IOException {
-        HttpsURLConnection urlConnection =(HttpsURLConnection)url.openConnection();
+    }
+
+    public static String getResponsefromUrl(URL url,Boolean isHttp) throws IOException {
+
+        String results;
+
+        if(isHttp=true ){
+             HttpURLConnection HttpUrlConnection =(HttpURLConnection)url.openConnection();
+             results = createHttpconncetion(HttpUrlConnection,isHttp);
+             return  results;
+        }else{
+            HttpsURLConnection HttpSurlConnection =(HttpsURLConnection)url.openConnection();
+            results = createHttpconncetion(HttpSurlConnection,isHttp);
+            return  results;
+        }
+
+    }
+
+    public static String createHttpconncetion(HttpURLConnection urlConnection, Boolean isHttp) throws IOException {
+
+
         try{
             InputStream in = urlConnection.getInputStream();
             Scanner scanner = new Scanner(in);
@@ -74,6 +115,7 @@ public class NetworkUtil {
         }finally {
             urlConnection.disconnect();
         }
+
     }
 
 

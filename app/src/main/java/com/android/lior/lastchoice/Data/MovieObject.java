@@ -9,9 +9,19 @@ public class MovieObject {
     public  String MovieDescription= null;
     public  String MovieTrailer = null;
 
+    public String getMoviePoster() {
+        return moviePoster;
+    }
+
+    public void setMoviePoster(String moviePoster) {
+        this.moviePoster = moviePoster;
+    }
+
+    public  String moviePoster=null;
+
     public MovieObject(String movieName, String movieDescription, String movieTraler){
-        this.MovieName =MovieName;
-        this.MovieDescription=MovieDescription;
+        this.MovieName =movieName;
+        this.MovieDescription=movieDescription;
         this.MovieTrailer= movieTraler;
 
     }

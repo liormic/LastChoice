@@ -5,10 +5,20 @@ package com.android.lior.lastchoice.Data;
  */
 
 public class MovieObject {
-    public  String MovieName = null;
-    public  String MovieDescription= null;
-    public  String MovieTrailer = null;
+    public  String movieName = null;
+    public  String movieDescription = null;
+    public  String movieTrailer = null;
 
+    public String getMovieRating() {
+        return movieRating;
+    }
+
+    public void setMovieRating(String movieRating) {
+        this.movieRating = movieRating;
+    }
+
+    public  String movieRating =null;
+    public  String moviePoster=null;
     public String getMoviePoster() {
         return moviePoster;
     }
@@ -17,38 +27,40 @@ public class MovieObject {
         this.moviePoster = moviePoster;
     }
 
-    public  String moviePoster=null;
 
-    public MovieObject(String movieName, String movieDescription, String movieTraler){
-        this.MovieName =movieName;
-        this.MovieDescription=movieDescription;
-        this.MovieTrailer= movieTraler;
 
+    public MovieObject(String movieName, String movieDescription, String movieTrailer,
+                       String moviePoster,String movieRating){
+        this.movieName =movieName;
+        this.movieDescription =movieDescription;
+        this.movieTrailer = movieTrailer;
+        this.moviePoster= moviePoster;
+        this.movieRating= movieRating;
     }
 
 
     public String getMovieName() {
-        return MovieName;
+        return movieName;
     }
 
     public void setMovieName(String movieName) {
-        MovieName = movieName;
+        this.movieName = movieName;
     }
 
     public String getMovieDescription() {
-        return MovieDescription;
+        return movieDescription;
     }
 
     public void setMovieDescription(String movieDescription) {
-        MovieDescription = movieDescription;
+        this.movieDescription = movieDescription;
     }
 
     public String getMovieTrailer() {
-        return MovieTrailer;
+        return movieTrailer;
     }
 
     public void setMovieTrailer(String movieTrailer) {
-        MovieTrailer = movieTrailer;
+        this.movieTrailer = movieTrailer;
     }
 
 

@@ -18,7 +18,6 @@ public class ContractDB   {
         public static final String COLUMN_Description="description";
         public static final String COLUMN_YOUTUBEURL="url";
         public static final String COLUMN_MOVIEIMAGE="image";
-
-
+        public static final String COLUMN_MOVIERATING="rating";
     }
 }

@@ -8,7 +8,17 @@ public class MovieObject {
     public  String MovieName = null;
     public  String MovieDescription= null;
     public  String MovieTrailer = null;
+    public  String moviePoster=null;
 
+    public String getMovieRating() {
+        return movieRating;
+    }
+
+    public void setMovieRating(String movieRating) {
+        this.movieRating = movieRating;
+    }
+
+    public  String movieRating = null;
     public String getMoviePoster() {
         return moviePoster;
     }
@@ -17,12 +27,15 @@ public class MovieObject {
         this.moviePoster = moviePoster;
     }
 
-    public  String moviePoster=null;
 
-    public MovieObject(String movieName, String movieDescription, String movieTraler){
+
+    public MovieObject(String movieName, String movieDescription, String movieTrailer,String moviePoster, String movieRating){
         this.MovieName =movieName;
         this.MovieDescription=movieDescription;
-        this.MovieTrailer= movieTraler;
+        this.MovieTrailer= movieTrailer;
+        this.moviePoster = moviePoster;
+        this.movieRating = movieRating;
+
 
     }
 

@@ -27,10 +27,16 @@
         android:text="Button"
         tools:ignore="OnClick" />
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="146dp"
+        app:srcCompat="@android:drawable/btn_star" />
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
-        android:layout_height="326dp"
+        android:layout_height="133dp"
         android:text="TextView" />
 
     <WebView

@@ -1,7 +1,9 @@
 package com.android.lior.lastchoice.Activities;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
@@ -9,9 +11,9 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
-import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.lior.lastchoice.Data.MovieObject;
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private Button makeQueryButton;
     private TextView textView;
     public String[] queryList= new String[2];
+    private ImageView imageView;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -43,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         query = (EditText) findViewById(R.id.Query);
         textView = (TextView)findViewById(R.id.textView);
         makeQueryButton = (Button) findViewById(R.id.button);
+        imageView =(ImageView)findViewById(R.id.imageView);
         getSupportLoaderManager().initLoader(LOADERID, null, this);
 
 
@@ -53,10 +57,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public void performQuery() {
         queryString = query.getText().toString();
         URL searchQueryTaste = NetworkUtil.buildUrlTaste(queryString);
-        URL searchQueryExtra = NetworkUtil.buildUrlExtraData(queryString);
+
         Bundle bundle = new Bundle();
         bundle.putString("SEARCH_QUERY_TASTE", searchQueryTaste.toString());
-        bundle.putString("SEARCH_QUERY_EXTRA", searchQueryExtra.toString());
+
         LoaderManager loaderManager = getSupportLoaderManager();
         Loader<String> searchLoader = loaderManager.getLoader(LOADERID);
         if (searchLoader == null) {
@@ -85,23 +89,32 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             @Override
             public ArrayList<MovieObject> loadInBackground() {
                 String searchQueryUrlTaste = bundle.getString("SEARCH_QUERY_TASTE");
-                String searchQueryUrlExtra = bundle.getString("SEARCH_QUERY_EXTRA");
-                if (searchQueryUrlTaste == null || TextUtils.isEmpty(searchQueryUrlTaste) || searchQueryUrlExtra == null || TextUtils.isEmpty(searchQueryUrlExtra)) {
+
+                if (searchQueryUrlTaste == null || TextUtils.isEmpty(searchQueryUrlTaste) ) {
                     return null;
                 }
-                ArrayList<MovieObject> movieObject = null;
+                ArrayList<MovieObject> movieObjects = new ArrayList<>();;
                 try {
                     Boolean isHttp = false;
                     URL queryURLTaste = new URL(searchQueryUrlTaste);
-                    URL queryURLExtra = new URL(searchQueryUrlExtra);
                     String queryResultsTaste = NetworkUtil.getResponsefromUrl(queryURLTaste, isHttp);
-                    String queryResultsExtra = NetworkUtil.getResponsefromUrl(queryURLExtra, isHttp = true);
-                    QueryJsonUtil queryJsonUtil = new QueryJsonUtil();
-                    movieObject = new ArrayList<>();
-                    movieObject = queryJsonUtil.getJsonStrings(queryResultsTaste, queryResultsExtra);
 
-                    queryList[0] = queryResultsTaste;
-                    queryList[1] = queryResultsExtra;
+
+                    QueryJsonUtil queryJsonUtil = new QueryJsonUtil();
+                    movieObjects = queryJsonUtil.getJsonStrings(queryResultsTaste);
+
+
+                    for(int i= 0 ;i<movieObjects.size();i++){
+                        URL searchQueryExtra = NetworkUtil.buildUrlExtraData(movieObjects.get(i).getMovieName());
+                        String queryResultsExtra = NetworkUtil.getResponsefromUrl(searchQueryExtra, isHttp = true);
+                        MovieObject movieObject;
+                        movieObject = queryJsonUtil.getJsonStringsExtra(queryResultsExtra);
+                        movieObjects.get(i).setMoviePoster(movieObject.getMoviePoster());
+                        movieObjects.get(i).setMovieRating(movieObject.getMovieRating());
+
+                    }
+
+
 
 
                 } catch (IOException e) {
@@ -110,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                return movieObject;
+                return movieObjects;
 
             }
         };
@@ -119,22 +132,29 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
 
     @Override
-    public void onLoadFinished(Loader< ArrayList<MovieObject>> loader,  ArrayList<MovieObject> s) {
+    public void onLoadFinished(Loader< ArrayList<MovieObject>> loader,  ArrayList<MovieObject> movieObjects) {
            //TODO: Finsih loading
            //TODO: Display data
-     /*   QueryJsonUtil queryJsonUtil= new QueryJsonUtil();
-        ArrayList<MovieObject> movieObject = new ArrayList<>();
-        movieObject = queryJsonUtil.getJsonStrings(queryList[0])
-        textView.setText(queryList[0]);*/
-        ArrayList<MovieObject> movieObjects = s;
-        String d = movieObjects.get(0).getMovieName();
-        String u = movieObjects.get(0).getMovieTrailer();
-        WebView webView = (WebView) findViewById(R.id.webView);
-        webView.getSettings().setJavaScriptEnabled(true);
 
 
-       webView.loadUrl(movieObjects.get(0).getMovieTrailer());
-        textView.setText(movieObjects.get(0).getMovieName());
+
+
+        Intent intent = new Intent(this,MovieSuggestions.class);
+        intent.putParcelableArrayListExtra("MovieObjects", (ArrayList<? extends Parcelable>) movieObjects);
+        startActivity(intent);
+
+
+//     ArrayList<MovieObject> movieObjects = s;
+//        String d = movieObjects.get(0).getMovieName();
+//        String u = movieObjects.get(0).getMovieTrailer();
+//        WebView webView = (WebView) findViewById(R.id.webView);
+//        webView.getSettings().setJavaScriptEnabled(true);
+//
+//
+//       webView.loadUrl(movieObjects.get(0).getMovieTrailer());
+//        textView.setText(movieObjects.get(0).getMovieName());
+//
+//        Picasso.with(this).load(movieObjects.get(3).getMoviePoster()).resize(400,400).into(imageView);
 
     }
 

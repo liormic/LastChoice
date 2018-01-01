@@ -1,6 +1,7 @@
 package com.android.lior.lastchoice.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.lior.lastchoice.Activities.MovieExpandActivity;
 import com.android.lior.lastchoice.Data.MovieObject;
 import com.android.lior.lastchoice.R;
 import com.squareup.picasso.Picasso;
@@ -21,11 +23,13 @@ import java.util.ArrayList;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MoviewViewHolder> {
 
+    final private ListItemClickListener mOncClickListener;
 
     private ArrayList<MovieObject> movieObjects = new ArrayList<>();
 
-    public MovieAdapter(ArrayList<MovieObject> movieObjects){
+    public MovieAdapter(ArrayList<MovieObject> movieObjects,ListItemClickListener listener){
         this.movieObjects=movieObjects;
+        mOncClickListener = listener;
     }
 
     @Override
@@ -41,14 +45,16 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MoviewViewHo
         holder.bind(position);
     }
 
-
+    public  interface ListItemClickListener{
+        void onListItemClick(int clickedItemIndex);
+    }
 
     @Override
     public int getItemCount() {
         return movieObjects.size();
     }
 
-    class MoviewViewHolder extends RecyclerView.ViewHolder{
+    class MoviewViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         ImageView imageView;
         Button buttonMore;
@@ -59,10 +65,12 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MoviewViewHo
         public MoviewViewHolder(View itemView) {
 
             super(itemView);
-         imageView = (ImageView) itemView.findViewById(R.id.imageView);
-         buttonMore= (Button) itemView.findViewById(R.id.buttonMore);
-         buttonFav = (Button) itemView.findViewById(R.id.buttonFav);
-         textView  =(TextView)itemView.findViewById(R.id.textView);
+
+         //buttonMore= (Button) itemView.findViewById(R.id.buttonMore);
+         //buttonFav = (Butto) itemView.findViewById(R.id.buttonFav);
+            imageView = itemView.findViewById(R.id.imageView2);
+            textView  =(TextView)itemView.findViewById(R.id.sugText);
+            itemView.setOnClickListener(this);
 
 
         }
@@ -71,6 +79,14 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MoviewViewHo
 
             Picasso.with(itemView.getContext()).load(movieObjects.get(position).getMoviePoster()).fit().into(imageView);
             textView.setText(movieObjects.get(position).getMovieName());
+
+        }
+
+        @Override
+        public void onClick(View view) {
+            int clickedPosition =getAdapterPosition();
+            mOncClickListener.onListItemClick(clickedPosition);
+
 
         }
     }

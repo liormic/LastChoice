@@ -28,7 +28,7 @@ public class NetworkUtil {
     private static final String infotaste = "1";
     private static final String INFO_PARAM_TASTE= "info";
     private static final String LIMIT_PARAM_TASTE="limit";
-    private static final String limittaste = "5";
+    private static final String limittaste = "12";
     private static final String APIKEY_PARAM_TASTE= "k";
     private static final String api_key_taste = "294364-LastTast-AEUE33KD";
     private static final String VERBOSE_PARAM_TASTE = "verbose";
@@ -109,6 +109,10 @@ public class NetworkUtil {
             if(hasInput){
                 response= scanner.next();
 
+            }
+
+            if(response.contains("Error")||response.contains("Results[]")){
+                response ="N/A";
             }
             scanner.close();
             return response;

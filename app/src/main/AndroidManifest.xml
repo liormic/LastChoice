@@ -18,7 +18,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.MovieSuggestions"></activity>
+        <activity android:name=".Activities.MovieSuggestions" />
+        <activity
+            android:name=".Activities.MovieExpandActivity"
+            android:label="@string/title_activity_movie_expand"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

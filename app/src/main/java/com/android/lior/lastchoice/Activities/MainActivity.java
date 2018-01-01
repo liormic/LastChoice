@@ -1,20 +1,24 @@
 package com.android.lior.lastchoice.Activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.lior.lastchoice.Data.MovieObject;
 import com.android.lior.lastchoice.R;
@@ -37,6 +41,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private TextView textView;
     public String[] queryList= new String[2];
     private ImageView imageView;
+    private final static String ERRORINRESPONSE ="N/A";
+    private final static String ERRORMESSAGE ="No matches found! Please try again";
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -48,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         makeQueryButton = (Button) findViewById(R.id.button);
         imageView =(ImageView)findViewById(R.id.imageView);
         getSupportLoaderManager().initLoader(LOADERID, null, this);
+
 
 
     }
@@ -75,6 +82,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public Loader< ArrayList<MovieObject>> onCreateLoader(int i, final Bundle bundle) {
         return new AsyncTaskLoader< ArrayList<MovieObject>>(this) {
+            private volatile Thread thread;
+
             @Override
             protected void onStartLoading() {
                 super.onStartLoading();
@@ -84,6 +93,36 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 //TODO: Add progressBar
 
                 forceLoad();
+            }
+
+            @Override
+            public void cancelLoadInBackground() {
+                abandon();
+
+            }
+
+            @Override
+            public void onCanceled(ArrayList<MovieObject> data) {
+
+
+                LayoutInflater layoutInflater= getLayoutInflater();
+                View layout = layoutInflater.inflate(R.layout.toast_layout,
+                        (ViewGroup) findViewById(R.id.toast_layout_root));
+                TextView toastText = (TextView)layout.findViewById(R.id.text);
+                toastText.setText(ERRORMESSAGE);
+                Context context =getApplicationContext();
+                int duration = Toast.LENGTH_SHORT;
+                Toast toast =new Toast(context);
+                toast.setDuration(duration);
+                toast.setGravity(Gravity.CENTER,0,0);
+                toast.setView(layout);
+
+
+
+
+
+                toast.show();
+                abandon();
             }
 
             @Override
@@ -101,19 +140,26 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
 
                     QueryJsonUtil queryJsonUtil = new QueryJsonUtil();
+
                     movieObjects = queryJsonUtil.getJsonStrings(queryResultsTaste);
+                    if(movieObjects!=null){
 
 
-                    for(int i= 0 ;i<movieObjects.size();i++){
-                        URL searchQueryExtra = NetworkUtil.buildUrlExtraData(movieObjects.get(i).getMovieName());
-                        String queryResultsExtra = NetworkUtil.getResponsefromUrl(searchQueryExtra, isHttp = true);
-                        MovieObject movieObject;
-                        movieObject = queryJsonUtil.getJsonStringsExtra(queryResultsExtra);
-                        movieObjects.get(i).setMoviePoster(movieObject.getMoviePoster());
-                        movieObjects.get(i).setMovieRating(movieObject.getMovieRating());
+
+
+                        for (int i = 0; i < movieObjects.size(); i++) {
+                            URL searchQueryExtra = NetworkUtil.buildUrlExtraData(movieObjects.get(i).getMovieName());
+                            String queryResultsExtra = NetworkUtil.getResponsefromUrl(searchQueryExtra, isHttp = true);
+                            MovieObject movieObject;
+                            movieObject = queryJsonUtil.getJsonStringsExtra(queryResultsExtra);
+                            movieObjects.get(i).setMoviePoster(movieObject.getMoviePoster());
+                            movieObjects.get(i).setMovieRating(movieObject.getMovieRating());
+
+                        }
+                    }else {
+                        cancelLoadInBackground();
 
                     }
-
 
 
 
@@ -139,22 +185,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
 
 
+        query.setText("");
         Intent intent = new Intent(this,MovieSuggestions.class);
-        intent.putParcelableArrayListExtra("MovieObjects", (ArrayList<? extends Parcelable>) movieObjects);
+        intent.putParcelableArrayListExtra("MovieObjects",  movieObjects);
         startActivity(intent);
 
-
-//     ArrayList<MovieObject> movieObjects = s;
-//        String d = movieObjects.get(0).getMovieName();
-//        String u = movieObjects.get(0).getMovieTrailer();
-//        WebView webView = (WebView) findViewById(R.id.webView);
-//        webView.getSettings().setJavaScriptEnabled(true);
-//
-//
-//       webView.loadUrl(movieObjects.get(0).getMovieTrailer());
-//        textView.setText(movieObjects.get(0).getMovieName());
-//
-//        Picasso.with(this).load(movieObjects.get(3).getMoviePoster()).resize(400,400).into(imageView);
 
     }
 

@@ -28,7 +28,11 @@ public class QueryJsonUtil {
         JSONObject jsonObjectTaste= new JSONObject(resultsFromJsonTaste);
         JSONObject jsonObjectSimilar=jsonObjectTaste.getJSONObject("Similar");
         JSONArray  jsonArray = jsonObjectSimilar.getJSONArray("Results");
+
         int n = jsonArray.length();
+        if(n==0){
+            return null;
+        }
         for(int i = 0; i<jsonArray.length();i++){
             try {
                 object = jsonArray.getJSONObject(i);
@@ -49,17 +53,23 @@ public class QueryJsonUtil {
 
        public MovieObject getJsonStringsExtra (String resultsFromJsonExtra) throws  JSONException {
            MovieObject movieObject = null;
+//           if(resultsFromJsonExtra=="N/A"){
+//
+//           }
            try {
+
                JSONObject jsonObjectExtra = new JSONObject(resultsFromJsonExtra);
                String moviePoster = jsonObjectExtra.getString(MOVIE_POSTER);
                String movieRating = jsonObjectExtra.getString(MOVIE_RATING);
+
                movieObject = new MovieObject(null, null, null, moviePoster, movieRating);
 
            } catch (JSONException e) {
-
+               return movieObject= new MovieObject(null,null,null,"N/A","N/A");
            }
            return movieObject;
        }
+
 
     }
 

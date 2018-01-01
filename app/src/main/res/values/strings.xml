@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">LastChoice</string>
+    <string name="title_activity_movie_expand">MovieExpandActivity</string>
 </resources>

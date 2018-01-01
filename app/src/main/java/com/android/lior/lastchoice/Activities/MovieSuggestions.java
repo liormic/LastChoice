@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class MovieSuggestions extends AppCompatActivity implements MovieAdapter.ListItemClickListener{
 
-
+    ArrayList<MovieObject> movieObjects;
     RecyclerView recyclerView;
     MovieAdapter movieAdapter;
     @Override
@@ -23,7 +23,7 @@ public class MovieSuggestions extends AppCompatActivity implements MovieAdapter.
         setContentView(R.layout.activity_movie_suggestions);
         recyclerView= (RecyclerView)findViewById(R.id.recyclerView);
         Intent intent = getIntent();
-        ArrayList<MovieObject> movieObjects=  intent.getParcelableArrayListExtra("MovieObjects");
+        movieObjects=  intent.getParcelableArrayListExtra("MovieObjects");
         GridLayoutManager linearLayoutManager= new GridLayoutManager(this,3);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(true);
@@ -43,6 +43,7 @@ public class MovieSuggestions extends AppCompatActivity implements MovieAdapter.
 
 
         Intent intent = new Intent(this, MovieExpandActivity.class);
+        intent.putExtra("MOVIEOBJECT",movieObjects.get(clickedItemIndex));
         startActivity(intent);
 
     }

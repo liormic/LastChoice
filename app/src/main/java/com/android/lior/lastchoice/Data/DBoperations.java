@@ -36,6 +36,7 @@ public class DBoperations {
        );
    }
     public void addItem(MovieObject movieObject){
+
         ContentValues contentValues = null;
         String movieName = movieObject.getMovieName();
         String movieDescription = movieObject.getMovieDescription();
@@ -48,6 +49,7 @@ public class DBoperations {
         contentValues.put(ContractDB.MovieData.COLUMN_MOVIEIMAGE,moviePoster);
         contentValues.put(ContractDB.MovieData.COLUMN_YOUTUBEURL,movieTrailer);
         contentValues.put(ContractDB.MovieData.COLUMN_MOVIERATING,movieRating);
+        db.close();
 
        }
 

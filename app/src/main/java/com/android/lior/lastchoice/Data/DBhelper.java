@@ -1,8 +1,11 @@
 package com.android.lior.lastchoice.Data;
 
 import android.content.Context;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.nfc.Tag;
+import android.util.Log;
 
 /**
  * Created by lior on 12/27/17.
@@ -11,8 +14,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DBhelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "movies.db";
-    private static final int DATABASE_VERSION =1;
-
+    private static final int DATABASE_VERSION =2;
+    private static final String TAG = DBhelper.class.getSimpleName();
 
 
 
@@ -22,18 +25,25 @@ public class DBhelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-       final String SQL_CREATE_MOVIE_TABLE= "CREATE TANLE " + ContractDB.MovieData.TABLE_NAME +" (" +
-               ContractDB.MovieData._ID + "INTERGER PRIMARY KEY AUTOINCREMENT,"+
-               ContractDB.MovieData.COLUMN_MOVIENAME +"TEXT NOT NULL, " +
-               ContractDB.MovieData.COLUMN_Description+"TEXT NOT NULL, "+
-               ContractDB.MovieData.COLUMN_MOVIEIMAGE+"MOVIE IMAGE, "+
-               ContractDB.MovieData.COLUMN_YOUTUBEURL+"YOUTUBE URL NOT NULL"+
-               ContractDB.MovieData.COLUMN_MOVIERATING+" INTEGER"+
-               "); ";
+        try {
+            final String SQL_CREATE_MOVIE_TABLE = "CREATE TABLE " + ContractDB.MovieData.TABLE_NAME + " (" +
+                    ContractDB.MovieData._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    ContractDB.MovieData.COLUMN_MOVIENAME + " TEXT NOT NULL, " +
+                    ContractDB.MovieData.COLUMN_Description + " TEXT NOT NULL, " +
+                    ContractDB.MovieData.COLUMN_MOVIEIMAGE + " TEXT NOT NULL, " +
+                    ContractDB.MovieData.COLUMN_YOUTUBEURL + " TEXT NOT NULL, " +
+                    ContractDB.MovieData.COLUMN_MOVIERATING + " TEXT NOT NULL" +
+                    "); ";
+
+            sqLiteDatabase.execSQL(SQL_CREATE_MOVIE_TABLE);
+        }catch (SQLException e){
+            Log.e(TAG,"ERROR ERROR "+e.getMessage());
+        }
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + ContractDB.MovieData.TABLE_NAME);
+        onCreate(sqLiteDatabase);
     }
 }

@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/LastChoice.iml" filepath="$PROJECT_DIR$/.idea/LastChoice.iml" />
-      <module fileurl="file://C:\Users\Lior\StudioProjects\LastChoice\LastChoice.iml" filepath="C:\Users\Lior\StudioProjects\LastChoice\LastChoice.iml" />
+      <module fileurl="file://$PROJECT_DIR$/LastChoice.iml" filepath="$PROJECT_DIR$/LastChoice.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.Toast;
 
 
 /**
@@ -35,21 +36,60 @@ public class DBoperations {
 
        );
    }
-    public void addItem(MovieObject movieObject){
 
-        ContentValues contentValues = null;
-        String movieName = movieObject.getMovieName();
-        String movieDescription = movieObject.getMovieDescription();
-        String moviePoster = movieObject.getMoviePoster();
-        String movieRating = movieObject.getMovieRating();
-        String movieTrailer= movieObject.getMovieTrailer();
+   public boolean checkIfMovieExsits(String movieName,Context context){
+       SQLiteDatabase db;
+       DBhelper dBhelper=new DBhelper(context);
+       db = dBhelper.getReadableDatabase();
+       String table =ContractDB.MovieData.TABLE_NAME;
+       String[] columns = {ContractDB.MovieData.COLUMN_MOVIENAME};
+       String selection = ContractDB.MovieData.COLUMN_MOVIENAME+"=?";
+       String[] selectionArgs = {movieName};
+       String groupBy =null;
+       String having = null;
 
-        contentValues.put(ContractDB.MovieData.COLUMN_MOVIENAME,movieName);
-        contentValues.put(ContractDB.MovieData.COLUMN_Description,movieDescription);
-        contentValues.put(ContractDB.MovieData.COLUMN_MOVIEIMAGE,moviePoster);
-        contentValues.put(ContractDB.MovieData.COLUMN_YOUTUBEURL,movieTrailer);
-        contentValues.put(ContractDB.MovieData.COLUMN_MOVIERATING,movieRating);
-        db.close();
+       Cursor cursor= db.query(table,columns,selection,selectionArgs,groupBy,having,null,null);
+
+       if(cursor.getCount()<1){
+           cursor.close();
+           return false;
+       }else {
+           cursor.close();
+           return true;
+       }
+
+
+
+
+
+   }
+
+    public Boolean addItem(MovieObject movieObject,Context context){
+
+        SQLiteDatabase db;
+        DBhelper dBhelper = new DBhelper(context);
+        db = dBhelper.getWritableDatabase();
+        Boolean isMovieExists = checkIfMovieExsits(movieObject.getMovieName(),context);
+        if(isMovieExists==false) {
+            ContentValues contentValues = new ContentValues();
+            String movieName = movieObject.getMovieName();
+            String movieDescription = movieObject.getMovieDescription();
+            String moviePoster = movieObject.getMoviePoster();
+            String movieRating = movieObject.getMovieRating();
+            String movieTrailer = movieObject.getMovieTrailer();
+
+            contentValues.put(ContractDB.MovieData.COLUMN_MOVIENAME, movieName);
+            contentValues.put(ContractDB.MovieData.COLUMN_Description, movieDescription);
+            contentValues.put(ContractDB.MovieData.COLUMN_MOVIEIMAGE, moviePoster);
+            contentValues.put(ContractDB.MovieData.COLUMN_YOUTUBEURL, movieTrailer);
+            contentValues.put(ContractDB.MovieData.COLUMN_MOVIERATING, movieRating);
+            db.insert(ContractDB.MovieData.TABLE_NAME, null, contentValues);
+            db.close();
+            return true;
+        }else {
+            return  false;
+        }
+
 
        }
 

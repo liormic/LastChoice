@@ -24,6 +24,7 @@ import com.android.lior.lastchoice.Data.MovieObject;
 import com.android.lior.lastchoice.R;
 import com.android.lior.lastchoice.Utilities.NetworkUtil;
 import com.android.lior.lastchoice.Utilities.QueryJsonUtil;
+import com.android.lior.lastchoice.Utilities.ToastUtil;
 
 import org.json.JSONException;
 
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private ImageView imageView;
     private final static String ERRORINRESPONSE ="N/A";
     private final static String ERRORMESSAGE ="No matches found! Please try again";
+    public Context context;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -54,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         makeQueryButton = (Button) findViewById(R.id.button);
         imageView =(ImageView)findViewById(R.id.imageView);
         getSupportLoaderManager().initLoader(LOADERID, null, this);
+        context = this;
 
 
 
@@ -104,24 +107,25 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             @Override
             public void onCanceled(ArrayList<MovieObject> data) {
 
-
-                LayoutInflater layoutInflater= getLayoutInflater();
-                View layout = layoutInflater.inflate(R.layout.toast_layout,
-                        (ViewGroup) findViewById(R.id.toast_layout_root));
-                TextView toastText = (TextView)layout.findViewById(R.id.text);
-                toastText.setText(ERRORMESSAGE);
-                Context context =getApplicationContext();
-                int duration = Toast.LENGTH_SHORT;
-                Toast toast =new Toast(context);
-                toast.setDuration(duration);
-                toast.setGravity(Gravity.CENTER,0,0);
-                toast.setView(layout);
-
-
-
-
-
-                toast.show();
+//
+//                LayoutInflater layoutInflater= getLayoutInflater();
+//                View layout = layoutInflater.inflate(R.layout.toast_layout,
+//                        (ViewGroup) findViewById(R.id.toast_layout_root));
+//                TextView toastText = (TextView)layout.findViewById(R.id.text);
+//                toastText.setText(ERRORMESSAGE);
+//                Context context =getApplicationContext();
+//                int duration = Toast.LENGTH_SHORT;
+//                Toast toast =new Toast(context);
+//                toast.setDuration(duration);
+//                toast.setGravity(Gravity.CENTER,0,0);
+//                toast.setView(layout);
+//
+//
+//
+//
+//
+//                toast.show();
+                ToastUtil.createToast(ERRORMESSAGE,context);
                 abandon();
             }
 

@@ -1,39 +1,45 @@
 package com.android.lior.lastchoice.Activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.SQLException;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.lior.lastchoice.Data.DBoperations;
 import com.android.lior.lastchoice.Data.MovieObject;
 import com.android.lior.lastchoice.R;
+import com.android.lior.lastchoice.Utilities.ToastUtil;
 import com.squareup.picasso.Picasso;
 
 public class MovieExpandActivity extends AppCompatActivity {
-
+   private static final String TAG = MovieExpandActivity.class.getSimpleName();
    private WebView webView;
-    private ImageView imageView;
+   private ImageView imageView;
    private TextView movieName;
    private TextView movieDescription;
    private RatingBar ratingBar;
    private TextView fullDescription;
-   private LinearLayout linearLayout;
+   private ConstraintLayout linearLayout;
    private LinearLayout mainLayout;
    public  MovieObject movieObject;
    private final static  String errorMessageDb ="Oh No! Error on adding the movie";
-    private final static  String succsesMessage ="Movie Added!";
+   private final static  String succsesMessage ="Movie Added!";
+   private final static String movieAlreadyExistsMessage ="Movie already exists in your favorites!";
    private TextView addToFav;
+   public Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +48,7 @@ public class MovieExpandActivity extends AppCompatActivity {
         Intent intent = getIntent();
         addToFav= findViewById(R.id.addtofavtext);
          movieObject = intent.getParcelableExtra("MOVIEOBJECT");
-        mainLayout = findViewById(R.id.mainLayout);
+     //   mainLayout = findViewById(R.id.mainLayout);
         webView = findViewById(R.id.webViewExpand);
         imageView = findViewById(R.id.imagePosterExpand);
         movieName = (TextView) findViewById(R.id.movieTitleExpand);
@@ -50,7 +56,8 @@ public class MovieExpandActivity extends AppCompatActivity {
         ratingBar = findViewById(R.id.ratingBar);
         fullDescription = findViewById(R.id.fullDescription);
         webView.getSettings().setJavaScriptEnabled(true);
-        linearLayout = findViewById(R.id.descriptionLayout);
+        linearLayout = findViewById(R.id.constraintLayout);
+        context = this;
 //
 
 
@@ -92,20 +99,36 @@ public class MovieExpandActivity extends AppCompatActivity {
     private View.OnClickListener onClickListenerFav = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
- 
-            DBoperations dBoperations = new DBoperations(getApplicationContext());
-            try {
-                dBoperations.addItem(movieObject);
-                Toast toast=  Toast.makeText(getApplicationContext(),succsesMessage,Toast.LENGTH_SHORT);
-                toast.show();
-            }catch (SQLException e){
-               Toast toast=  Toast.makeText(getApplicationContext(),errorMessageDb,Toast.LENGTH_SHORT);
-               toast.show();
-            }
 
+
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... voids) {
+                    try {
+                        DBoperations dBoperations = new DBoperations(getApplicationContext());
+                        Boolean isSuccses = dBoperations.addItem(movieObject, getApplicationContext());
+
+                        if (isSuccses) {
+                            ToastUtil.createToast(succsesMessage, context);
+
+                        } else {
+
+                            ToastUtil.createToast(movieAlreadyExistsMessage, context);
+                        }
+
+                    } catch (SQLException e) {
+                        Log.e(TAG, "Failed to insert Value" + e.getMessage());
+                        ToastUtil.createToast(errorMessageDb, context);
+
+                    }
+                    return null;
+                }
+            };
 
 
         }
+
+
     };
 
     }

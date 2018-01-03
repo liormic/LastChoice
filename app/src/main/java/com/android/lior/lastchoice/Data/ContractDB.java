@@ -13,7 +13,7 @@ public class ContractDB   {
 
     public class MovieData implements BaseColumns{
 
-        public static final String TABLE_NAME="Movies";
+        public static final String TABLE_NAME="movies";
         public static final String COLUMN_MOVIENAME="moviename";
         public static final String COLUMN_Description="description";
         public static final String COLUMN_YOUTUBEURL="url";

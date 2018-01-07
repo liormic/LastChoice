@@ -160,7 +160,7 @@
 
             android:layout_marginTop="6dp"
             android:foregroundGravity="fill_vertical|center_horizontal|clip_vertical"
-            android:tint="#1500ff"
+            android:tint="@color/colorPrimaryDark"
             app:layout_constraintBottom_toBottomOf="@+id/addtofavtext"
             app:layout_constraintEnd_toEndOf="@+id/addtofavtext"
             app:layout_constraintHorizontal_bias="0.035"

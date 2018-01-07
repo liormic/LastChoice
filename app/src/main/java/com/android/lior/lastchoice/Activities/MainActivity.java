@@ -1,5 +1,6 @@
 package com.android.lior.lastchoice.Activities;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -11,12 +12,18 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,7 +41,8 @@ import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks< ArrayList<MovieObject>> {
-
+    public  boolean isBusy=false;
+    private ProgressBar pB;
     private EditText query;
     private static String queryString = "";
     private static int LOADERID = 3233;
@@ -51,13 +59,28 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        query = (EditText) findViewById(R.id.Query);
-        textView = (TextView)findViewById(R.id.textView);
-        makeQueryButton = (Button) findViewById(R.id.button);
-        imageView =(ImageView)findViewById(R.id.imageView);
+        getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimary));
+        query =  findViewById(R.id.Query);
+        textView = findViewById(R.id.textHomeScreen);
+       // makeQueryButton = (Button) findViewById(R.id.button);
+        imageView =findViewById(R.id.imageView);
+        pB = findViewById(R.id.progressBar);
+        pB.setVisibility(View.GONE);
         getSupportLoaderManager().initLoader(LOADERID, null, this);
         context = this;
-
+        View  myView =new View(context);
+        myView.requestFocus();
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        query.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH && isBusy!=true) {
+                    performQuery();
+                    return true;
+                }
+                return false;
+            }
+        });
 
 
     }
@@ -65,22 +88,25 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void performQuery() {
-        queryString = query.getText().toString();
-        URL searchQueryTaste = NetworkUtil.buildUrlTaste(queryString);
 
-        Bundle bundle = new Bundle();
-        bundle.putString("SEARCH_QUERY_TASTE", searchQueryTaste.toString());
+            queryString = query.getText().toString();
+            URL searchQueryTaste = NetworkUtil.buildUrlTaste(queryString);
 
-        LoaderManager loaderManager = getSupportLoaderManager();
-        Loader<String> searchLoader = loaderManager.getLoader(LOADERID);
-        if (searchLoader == null) {
-            loaderManager.initLoader(LOADERID, bundle, this);
-        }else
+            Bundle bundle = new Bundle();
+            bundle.putString("SEARCH_QUERY_TASTE", searchQueryTaste.toString());
 
-        {
-            loaderManager.restartLoader(LOADERID, bundle, this);
+            LoaderManager loaderManager = getSupportLoaderManager();
+            Loader<String> searchLoader = loaderManager.getLoader(LOADERID);
+            if (searchLoader == null) {
+                loaderManager.initLoader(LOADERID, bundle, this);
+            } else
+
+            {
+                loaderManager.restartLoader(LOADERID, bundle, this);
+            }
         }
-    }
+
+
 
     @Override
     public Loader< ArrayList<MovieObject>> onCreateLoader(int i, final Bundle bundle) {
@@ -89,13 +115,17 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
             @Override
             protected void onStartLoading() {
+
                 super.onStartLoading();
+
                 if(bundle == null){
                     return;
                 }
                 //TODO: Add progressBar
 
                 forceLoad();
+                pB.setVisibility(View.VISIBLE);
+                isBusy =true;
             }
 
             @Override
@@ -131,6 +161,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
             @Override
             public ArrayList<MovieObject> loadInBackground() {
+
                 String searchQueryUrlTaste = bundle.getString("SEARCH_QUERY_TASTE");
 
                 if (searchQueryUrlTaste == null || TextUtils.isEmpty(searchQueryUrlTaste) ) {
@@ -183,9 +214,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public void onLoadFinished(Loader< ArrayList<MovieObject>> loader,  ArrayList<MovieObject> movieObjects) {
-           //TODO: Finsih loading
-           //TODO: Display data
-
+        pB.setVisibility(View.GONE);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
 
 

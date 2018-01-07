@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">LastChoice</string>
     <string name="title_activity_movie_expand">MovieExpandActivity</string>
+    <string name="picture_transition_name" translatable="false">picture_transition</string>
 </resources>

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.widget.Toast;
 
 
 /**
@@ -69,8 +68,8 @@ public class DBoperations {
         SQLiteDatabase db;
         DBhelper dBhelper = new DBhelper(context);
         db = dBhelper.getWritableDatabase();
-        Boolean isMovieExists = checkIfMovieExsits(movieObject.getMovieName(),context);
-        if(isMovieExists==false) {
+     //   Boolean isMovieExists = checkIfMovieExsits(movieObject.getMovieName(),context);
+
             ContentValues contentValues = new ContentValues();
             String movieName = movieObject.getMovieName();
             String movieDescription = movieObject.getMovieDescription();
@@ -86,9 +85,7 @@ public class DBoperations {
             db.insert(ContractDB.MovieData.TABLE_NAME, null, contentValues);
             db.close();
             return true;
-        }else {
-            return  false;
-        }
+
 
 
        }

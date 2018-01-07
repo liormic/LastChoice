@@ -1,7 +1,6 @@
 package com.android.lior.lastchoice.Adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +9,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.lior.lastchoice.Activities.MovieExpandActivity;
 import com.android.lior.lastchoice.Data.MovieObject;
 import com.android.lior.lastchoice.R;
 import com.squareup.picasso.Picasso;
@@ -66,16 +64,16 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MoviewViewHo
 
             super(itemView);
 
-         //buttonMore= (Button) itemView.findViewById(R.id.buttonMore);
-         //buttonFav = (Butto) itemView.findViewById(R.id.buttonFav);
+            //buttonMore= (Button) itemView.findViewById(R.id.buttonMore);
+            //buttonFav = (Butto) itemView.findViewById(R.id.buttonFav);
             imageView = itemView.findViewById(R.id.imageView2);
-            textView  =(TextView)itemView.findViewById(R.id.sugText);
+            textView = (TextView) itemView.findViewById(R.id.sugText);
             itemView.setOnClickListener(this);
 
 
         }
 
-        void bind (int position){
+        void bind(int position) {
 
             Picasso.with(itemView.getContext()).load(movieObjects.get(position).getMoviePoster()).fit().into(imageView);
             textView.setText(movieObjects.get(position).getMovieName());
@@ -84,9 +82,9 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MoviewViewHo
 
         @Override
         public void onClick(View view) {
-            int clickedPosition =getAdapterPosition();
-            mOncClickListener.onListItemClick(clickedPosition);
 
+            int clickedPosition = getAdapterPosition();
+            mOncClickListener.onListItemClick(clickedPosition);
 
         }
     }

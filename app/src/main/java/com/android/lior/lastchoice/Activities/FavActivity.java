@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class FavActivity extends AppCompatActivity implements MovieAdapter.ListItemClickListener {
 
     private  RecyclerView recyclerView;
-    private ArrayList<MovieObject> movieObjectsArray;
+    public ArrayList<MovieObject> movieObjectsArray;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -24,8 +24,8 @@ public class MovieSuggestions extends AppCompatActivity implements MovieAdapter.
         recyclerView= (RecyclerView)findViewById(R.id.recyclerView);
         Intent intent = getIntent();
         movieObjects=  intent.getParcelableArrayListExtra("MovieObjects");
-        GridLayoutManager linearLayoutManager= new GridLayoutManager(this,3);
-        recyclerView.setLayoutManager(linearLayoutManager);
+        GridLayoutManager gridLayoutManager= new GridLayoutManager(this,3);
+        recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setHasFixedSize(true);
         movieAdapter = new MovieAdapter(movieObjects,this);
         recyclerView.setAdapter(movieAdapter);

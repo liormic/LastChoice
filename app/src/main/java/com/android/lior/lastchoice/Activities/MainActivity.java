@@ -156,6 +156,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 //
 //                toast.show();
                 ToastUtil.createToast(ERRORMESSAGE,context);
+                pB.setVisibility(View.INVISIBLE);
+                isBusy=false;
                 abandon();
             }
 

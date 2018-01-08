@@ -10,8 +10,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:windowSoftInputMode="stateVisible"
-        android:theme="@style/AppTheme.NoActionBar">
+        android:theme="@style/AppTheme.NoActionBar"
+        android:windowSoftInputMode="stateVisible">
         <activity android:name=".Activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,7 +23,11 @@
         <activity
             android:name=".Activities.MovieExpandActivity"
             android:label="@string/title_activity_movie_expand" />
-        <activity android:name=".Activities.ExpandTextActivity"></activity>
+        <activity android:name=".Activities.ExpandTextActivity" />
+        <activity
+            android:name=".Activities.FavActivity"
+            android:label="@string/title_activity_fav"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

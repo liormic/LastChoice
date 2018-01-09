@@ -8,4 +8,6 @@
     <string name="what_film_did_you_liked">What film did you liked?</string>
     <string name="title_activity_fav">FavActivity</string>
     <string name="toastMessageFav">You do not have any Favorites. Yet.</string>
+    <string name="favorites">Favorites</string>
+    <string name="Search">Search</string>
 </resources>

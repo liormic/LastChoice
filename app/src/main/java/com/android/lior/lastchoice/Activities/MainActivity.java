@@ -14,6 +14,8 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -26,6 +28,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.support.v7.widget.Toolbar;
 
 import com.android.lior.lastchoice.Data.MovieObject;
 import com.android.lior.lastchoice.R;
@@ -40,7 +43,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks< ArrayList<MovieObject>> {
+public class MainActivity extends BaseActivity implements LoaderManager.LoaderCallbacks< ArrayList<MovieObject>> {
     public  boolean isBusy=false;
     private ProgressBar pB;
     private EditText query;
@@ -65,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
        // makeQueryButton = (Button) findViewById(R.id.button);
         imageView =findViewById(R.id.imageView);
         pB = findViewById(R.id.progressBar);
+
         pB.setVisibility(View.GONE);
         getSupportLoaderManager().initLoader(LOADERID, null, this);
         context = this;
@@ -83,6 +87,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         });
 
 
+    }
+
+    @Override
+    protected int getLayoutResource() {
+        return R.layout.activity_main;
     }
 
 
@@ -238,5 +247,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void buttonClick(View view) {
         performQuery();
+    }
+
+
+    public void clicktext(View view) {
+        Intent intentFav = new Intent(this,FavActivity.class);
+        startActivity(intentFav);
     }
 }

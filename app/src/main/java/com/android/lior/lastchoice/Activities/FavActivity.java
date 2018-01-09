@@ -1,5 +1,6 @@
 package com.android.lior.lastchoice.Activities;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -18,17 +19,17 @@ import java.util.ArrayList;
 public class FavActivity extends AppCompatActivity implements MovieAdapter.ListItemClickListener {
 
     private  RecyclerView recyclerView;
-    public ArrayList<MovieObject> movieObjectsArray;
+  public    ArrayList<MovieObject> movieObjects;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fav);
 
-        recyclerView=findViewById(R.id.recyclerViewFav);
+        recyclerView=(RecyclerView)findViewById(R.id.recyclerViewFav);
 
         DBoperations dBoperations=new DBoperations(this);
-        getMovieObjectFromCursor(dBoperations.getAllitems());
-        MovieAdapter movieAdapter = new MovieAdapter(movieObjectsArray,this);
+        movieObjects=   getMovieObjectFromCursor(dBoperations.getAllitems());
+        MovieAdapter movieAdapter = new MovieAdapter(movieObjects,this);
         recyclerView.setAdapter(movieAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false));
         recyclerView.setHasFixedSize(true);
@@ -36,11 +37,12 @@ public class FavActivity extends AppCompatActivity implements MovieAdapter.ListI
     }
 
 
-    public void getMovieObjectFromCursor(Cursor cursor){
+    public ArrayList<MovieObject>  getMovieObjectFromCursor(Cursor cursor){
+         ArrayList<MovieObject> movieObjectsArray = new ArrayList<>();
         if(cursor.getCount()<1) {
             Toast toast = Toast.makeText(this, R.string.toastMessageFav,Toast.LENGTH_SHORT);
             toast.show();
-            return ;
+            return null ;
         }
 
             int movieNameCol = cursor.getColumnIndex(ContractDB.MovieData.COLUMN_MOVIENAME);
@@ -61,11 +63,13 @@ public class FavActivity extends AppCompatActivity implements MovieAdapter.ListI
         }
 
       cursor.close();
-
+      return movieObjectsArray;
     }
 
     @Override
     public void onListItemClick(int clickedItemIndex) {
-
+        Intent intent = new Intent(this, MovieExpandActivity.class);
+        intent.putExtra("MOVIEOBJECT",movieObjects.get(clickedItemIndex));
+        startActivity(intent);
     }
 }

@@ -3,6 +3,7 @@ package com.android.lior.lastchoice.Activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -27,7 +28,7 @@ public class MovieSuggestions extends AppCompatActivity implements MovieAdapter.
         GridLayoutManager gridLayoutManager= new GridLayoutManager(this,3);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setHasFixedSize(true);
-        movieAdapter = new MovieAdapter(movieObjects,this);
+        movieAdapter = new MovieAdapter(movieObjects,this,false);
         recyclerView.setAdapter(movieAdapter);
     }
 
@@ -41,7 +42,8 @@ public class MovieSuggestions extends AppCompatActivity implements MovieAdapter.
     @Override
     public void onListItemClick(int clickedItemIndex) {
 
-
+        CardView cardView = findViewById(R.id.cardView);
+        cardView.setElevation(8);
         Intent intent = new Intent(this, MovieExpandActivity.class);
         intent.putExtra("MOVIEOBJECT",movieObjects.get(clickedItemIndex));
         startActivity(intent);

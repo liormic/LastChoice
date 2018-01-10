@@ -7,6 +7,7 @@ import android.database.SQLException;
 import android.databinding.DataBindingUtil;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -48,16 +49,19 @@ public class MovieExpandActivity extends AppCompatActivity {
         addToFav= findViewById(R.id.addtofavtext);
         movieObject = intent.getParcelableExtra("MOVIEOBJECT");
         imageView = findViewById(R.id.imagePosterExpand);
+        plusFav = findViewById(R.id.imagePlus);
+        checkFav = findViewById(R.id.imageCheck);
+
         movieExpandBinding.webViewExpand.getSettings().setJavaScriptEnabled(true);
         movieExpandBinding.webViewExpand.setWebChromeClient(new WebChromeClient());
         movieExpandBinding.webViewExpand.getSettings().setLoadWithOverviewMode(true);
         movieExpandBinding.webViewExpand.getSettings().setUseWideViewPort(true);
         movieExpandBinding.webViewExpand.getSettings().setPluginState(WebSettings.PluginState.ON);
+
         bindData(movieObject);
         movieNameString = movieObject.getMovieName();
-        plusFav = findViewById(R.id.imagePlus);
-        checkFav = findViewById(R.id.imageCheck);
         checkFav.setVisibility(View.INVISIBLE);
+
         context=this;
         expandTextIntent = new Intent(this,ExpandTextActivity.class);
         expandTextIntent.putExtra("MOVIEOBJECTE",movieObject);
@@ -82,7 +86,10 @@ public class MovieExpandActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             if(  checkFav.getVisibility() == View.VISIBLE){
-                return;
+                DBoperations dBoperations = new DBoperations(context);
+               Boolean isSucssu=  dBoperations.removeItem(movieNameString);
+                addToFav.setText(R.string.add_to_favorites);
+
             }
             new addtofav().execute();
         }
@@ -134,9 +141,11 @@ public class MovieExpandActivity extends AppCompatActivity {
 
                 if (isSuccses) {
 
+                    Snackbar snackbar = Snackbar.make((findViewById(R.id.constraintLayout)),"Movie Added to favorites",Snackbar.LENGTH_SHORT);
 
                 } else {
 
+                    Snackbar snackbar = Snackbar.make((findViewById(R.id.constraintLayout)),"There was an issue adding this movie",Snackbar.LENGTH_SHORT);
 
                 }
 

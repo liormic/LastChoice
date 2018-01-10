@@ -44,41 +44,41 @@ import java.util.ArrayList;
 
 
 public class MainActivity extends BaseActivity implements LoaderManager.LoaderCallbacks< ArrayList<MovieObject>> {
-    public  boolean isBusy=false;
+    public boolean isBusy = false;
     private ProgressBar pB;
     private EditText query;
     private static String queryString = "";
     private static int LOADERID = 3233;
     private Button makeQueryButton;
     private TextView textView;
-    public String[] queryList= new String[2];
+    public String[] queryList = new String[2];
     private ImageView imageView;
-    private final static String ERRORINRESPONSE ="N/A";
-    private final static String ERRORMESSAGE ="No matches found! Please try again";
+    private final static String ERRORINRESPONSE = "N/A";
+    private final static String ERRORMESSAGE = "No matches found! Please try again";
     public Context context;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        //  setContentView(R.layout.activity_main);
         getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimary));
-        query =  findViewById(R.id.Query);
+        query = findViewById(R.id.Query);
         textView = findViewById(R.id.textHomeScreen);
-       // makeQueryButton = (Button) findViewById(R.id.button);
-        imageView =findViewById(R.id.imageView);
+        // makeQueryButton = (Button) findViewById(R.id.button);
+        imageView = findViewById(R.id.imageView);
         pB = findViewById(R.id.progressBar);
-
+        setSupportActionBar(toolbar);
         pB.setVisibility(View.GONE);
         getSupportLoaderManager().initLoader(LOADERID, null, this);
         context = this;
-        View  myView =new View(context);
+        View myView = new View(context);
         myView.requestFocus();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         query.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH && isBusy!=true) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH && isBusy != true) {
                     performQuery();
                     return true;
                 }
@@ -98,28 +98,27 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void performQuery() {
 
-            queryString = query.getText().toString();
-            URL searchQueryTaste = NetworkUtil.buildUrlTaste(queryString);
+        queryString = query.getText().toString();
+        URL searchQueryTaste = NetworkUtil.buildUrlTaste(queryString);
 
-            Bundle bundle = new Bundle();
-            bundle.putString("SEARCH_QUERY_TASTE", searchQueryTaste.toString());
+        Bundle bundle = new Bundle();
+        bundle.putString("SEARCH_QUERY_TASTE", searchQueryTaste.toString());
 
-            LoaderManager loaderManager = getSupportLoaderManager();
-            Loader<String> searchLoader = loaderManager.getLoader(LOADERID);
-            if (searchLoader == null) {
-                loaderManager.initLoader(LOADERID, bundle, this);
-            } else
+        LoaderManager loaderManager = getSupportLoaderManager();
+        Loader<String> searchLoader = loaderManager.getLoader(LOADERID);
+        if (searchLoader == null) {
+            loaderManager.initLoader(LOADERID, bundle, this);
+        } else
 
-            {
-                loaderManager.restartLoader(LOADERID, bundle, this);
-            }
+        {
+            loaderManager.restartLoader(LOADERID, bundle, this);
         }
-
+    }
 
 
     @Override
-    public Loader< ArrayList<MovieObject>> onCreateLoader(int i, final Bundle bundle) {
-        return new AsyncTaskLoader< ArrayList<MovieObject>>(this) {
+    public Loader<ArrayList<MovieObject>> onCreateLoader(int i, final Bundle bundle) {
+        return new AsyncTaskLoader<ArrayList<MovieObject>>(this) {
             private volatile Thread thread;
 
             @Override
@@ -127,14 +126,14 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
 
                 super.onStartLoading();
 
-                if(bundle == null){
+                if (bundle == null) {
                     return;
                 }
                 //TODO: Add progressBar
 
                 forceLoad();
                 pB.setVisibility(View.VISIBLE);
-                isBusy =true;
+                isBusy = true;
             }
 
             @Override
@@ -164,9 +163,9 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
 //
 //
 //                toast.show();
-                ToastUtil.createToast(ERRORMESSAGE,context);
+                ToastUtil.createToast(ERRORMESSAGE, context);
                 pB.setVisibility(View.INVISIBLE);
-                isBusy=false;
+                isBusy = false;
                 abandon();
             }
 
@@ -175,10 +174,11 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
 
                 String searchQueryUrlTaste = bundle.getString("SEARCH_QUERY_TASTE");
 
-                if (searchQueryUrlTaste == null || TextUtils.isEmpty(searchQueryUrlTaste) ) {
+                if (searchQueryUrlTaste == null || TextUtils.isEmpty(searchQueryUrlTaste)) {
                     return null;
                 }
-                ArrayList<MovieObject> movieObjects = new ArrayList<>();;
+                ArrayList<MovieObject> movieObjects = new ArrayList<>();
+                ;
                 try {
                     Boolean isHttp = false;
                     URL queryURLTaste = new URL(searchQueryUrlTaste);
@@ -188,9 +188,7 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
                     QueryJsonUtil queryJsonUtil = new QueryJsonUtil();
 
                     movieObjects = queryJsonUtil.getJsonStrings(queryResultsTaste);
-                    if(movieObjects!=null){
-
-
+                    if (movieObjects != null) {
 
 
                         for (int i = 0; i < movieObjects.size(); i++) {
@@ -202,11 +200,10 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
                             movieObjects.get(i).setMovieRating(movieObject.getMovieRating());
 
                         }
-                    }else {
+                    } else {
                         cancelLoadInBackground();
 
                     }
-
 
 
                 } catch (IOException e) {
@@ -222,24 +219,22 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
     }
 
 
-
     @Override
-    public void onLoadFinished(Loader< ArrayList<MovieObject>> loader,  ArrayList<MovieObject> movieObjects) {
+    public void onLoadFinished(Loader<ArrayList<MovieObject>> loader, ArrayList<MovieObject> movieObjects) {
         pB.setVisibility(View.GONE);
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
 
-
         query.setText("");
-        Intent intent = new Intent(this,MovieSuggestions.class);
-        intent.putParcelableArrayListExtra("MovieObjects",  movieObjects);
+        Intent intent = new Intent(this, MovieSuggestions.class);
+        intent.putParcelableArrayListExtra("MovieObjects", movieObjects);
         startActivity(intent);
 
 
     }
 
     @Override
-    public void onLoaderReset(Loader< ArrayList<MovieObject>> loader) {
+    public void onLoaderReset(Loader<ArrayList<MovieObject>> loader) {
 
     }
 
@@ -251,7 +246,32 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
 
 
     public void clicktext(View view) {
-        Intent intentFav = new Intent(this,FavActivity.class);
+        Intent intentFav = new Intent(this, FavActivity.class);
         startActivity(intentFav);
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.searchIcon:
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.favIcon:
+                Intent intentFav = new Intent(this, FavActivity.class);
+                startActivity(intentFav);
+                return true;
+
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 }
+

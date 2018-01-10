@@ -9,6 +9,7 @@
     android:fitsSystemWindows="true"
     tools:context="com.android.lior.lastchoice.Activities.MainActivity">
 
+ <include layout="@layout/toolbar"/>
 
     <RelativeLayout
         android:id="@+id/relativeLayout"
@@ -37,11 +38,12 @@
             android:layout_width="wrap_content"
             android:layout_height="39dp"
             android:layout_centerHorizontal="true"
-
+            android:fontFamily="sans-serif-light"
             android:layout_centerVertical="true"
             android:layout_gravity="center_horizontal"
             android:background="#2e2e2d"
             android:hint="@string/what_film_did_you_liked"
+
             android:imeOptions="actionSearch"
             android:inputType="text"
             android:maxLines="1"
@@ -66,6 +68,7 @@
         android:id="@+id/textHomeScreen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
         android:layout_below="@+id/imageView"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="13dp"
@@ -83,25 +86,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp" />
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
 
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        app:titleTextColor="@android:color/white">
-
-        <TextView
-            android:id="@+id/favIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="clicktext"
-            android:text="PROJECT TIMELINE"
-            android:textColor="#FFF"
-            android:textSize="20sp"
-            android:textStyle="bold" /></android.support.v7.widget.Toolbar>
 
 </RelativeLayout>

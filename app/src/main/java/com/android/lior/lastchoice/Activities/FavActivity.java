@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.Toast;
 
 import com.android.lior.lastchoice.Adapters.MovieAdapter;
 import com.android.lior.lastchoice.Data.ContractDB;
@@ -17,32 +16,46 @@ import com.android.lior.lastchoice.R;
 import java.util.ArrayList;
 
 public class FavActivity extends AppCompatActivity implements MovieAdapter.ListItemClickListener {
-
+  private      MovieAdapter movieAdapter;
     private  RecyclerView recyclerView;
-  public    ArrayList<MovieObject> movieObjects;
+  public   ArrayList<MovieObject> movieObjects;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fav);
 
-        recyclerView=(RecyclerView)findViewById(R.id.recyclerViewFav);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerViewFav);
 
-        DBoperations dBoperations=new DBoperations(this);
-        movieObjects=   getMovieObjectFromCursor(dBoperations.getAllitems());
-        MovieAdapter movieAdapter = new MovieAdapter(movieObjects,this);
-        recyclerView.setAdapter(movieAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false));
-        recyclerView.setHasFixedSize(true);
+        DBoperations dBoperations = new DBoperations(this);
+        MovieAdapter movieAdapter = null;
+        movieObjects = getMovieObjectFromCursor(dBoperations.getAllitems());
+        if (movieObjects != null) {
+            movieAdapter = new MovieAdapter(movieObjects, this,true);
+            recyclerView.setAdapter(movieAdapter);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+            recyclerView.setHasFixedSize(true);
+        } else {
+
+
+            setContentView(R.layout.fav_layout__no_items);
+
+
+        }
 
     }
+
+
+
+
+
 
 
     public ArrayList<MovieObject>  getMovieObjectFromCursor(Cursor cursor){
          ArrayList<MovieObject> movieObjectsArray = new ArrayList<>();
         if(cursor.getCount()<1) {
-            Toast toast = Toast.makeText(this, R.string.toastMessageFav,Toast.LENGTH_SHORT);
-            toast.show();
-            return null ;
+
+            setContentView(R.layout.fav_layout__no_items);
+            return null;
         }
 
             int movieNameCol = cursor.getColumnIndex(ContractDB.MovieData.COLUMN_MOVIENAME);
@@ -72,4 +85,6 @@ public class FavActivity extends AppCompatActivity implements MovieAdapter.ListI
         intent.putExtra("MOVIEOBJECT",movieObjects.get(clickedItemIndex));
         startActivity(intent);
     }
+
+
 }

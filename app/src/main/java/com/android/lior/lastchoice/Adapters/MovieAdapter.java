@@ -22,18 +22,24 @@ import java.util.ArrayList;
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MoviewViewHolder> {
 
     final private ListItemClickListener mOncClickListener;
-
+    private Boolean isFavScreen;
     private ArrayList<MovieObject> movieObjects = new ArrayList<>();
 
-    public MovieAdapter(ArrayList<MovieObject> movieObjects,ListItemClickListener listener){
+    public MovieAdapter(ArrayList<MovieObject> movieObjects,ListItemClickListener listener,Boolean isFavScreen){
         this.movieObjects=movieObjects;
         mOncClickListener = listener;
+        this.isFavScreen = isFavScreen;
     }
 
     @Override
     public MoviewViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
-        View view = LayoutInflater.from(context).inflate(R.layout.movie_list_item,parent,false);
+        View view;
+        if(isFavScreen){
+            view = LayoutInflater.from(context).inflate(R.layout.movie_list_item_fav,parent,false);
+        }else {
+            view = LayoutInflater.from(context).inflate(R.layout.movie_list_item, parent, false);
+        }
         MoviewViewHolder viewHolder= new MoviewViewHolder(view);
         return viewHolder;
     }

@@ -11,4 +11,6 @@
     <string name="favorites">Favorites</string>
     <string name="Search">Search</string>
     <string name="noitems">You do not have any favorites. Yet.</string>
+    <string name="removedfromDB">Movie removed from favorites</string>
+    <string name="errorMessageGetAllItems">Error getting the items</string>
 </resources>

@@ -7,9 +7,12 @@ import android.database.SQLException;
 import android.databinding.DataBindingUtil;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.webkit.WebChromeClient;
@@ -24,7 +27,7 @@ import com.android.lior.lastchoice.Utilities.ToastUtil;
 import com.android.lior.lastchoice.databinding.ActivityMovieExpandBinding;
 import com.squareup.picasso.Picasso;
 
-public class MovieExpandActivity extends AppCompatActivity {
+public class MovieExpandActivity extends BaseActivity {
    private static final String TAG = MovieExpandActivity.class.getSimpleName();
    private ImageView imageView;
    private TextView movieName;
@@ -32,7 +35,7 @@ public class MovieExpandActivity extends AppCompatActivity {
    public  MovieObject movieObject;
    private ImageView plusFav;
    private final static  String errorMessageDb ="Oh No! Error on adding the movie";
-
+   private ConstraintLayout constraintLayout;
    private TextView addToFav;
    private ImageView checkFav;
    public Context context;
@@ -51,7 +54,8 @@ public class MovieExpandActivity extends AppCompatActivity {
         imageView = findViewById(R.id.imagePosterExpand);
         plusFav = findViewById(R.id.imagePlus);
         checkFav = findViewById(R.id.imageCheck);
-
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         movieExpandBinding.webViewExpand.getSettings().setJavaScriptEnabled(true);
         movieExpandBinding.webViewExpand.setWebChromeClient(new WebChromeClient());
         movieExpandBinding.webViewExpand.getSettings().setLoadWithOverviewMode(true);
@@ -68,10 +72,14 @@ public class MovieExpandActivity extends AppCompatActivity {
 
 
         addToFav.setOnClickListener(onClickListenerFav);
-        new checkIfExists().execute();
+         checkIfExists(movieNameString,context);
 
     }
 
+    @Override
+    protected int getLayoutResource() {
+        return R.layout.activity_movie_expand;
+    }
 
 
     private View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -86,39 +94,44 @@ public class MovieExpandActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             if(  checkFav.getVisibility() == View.VISIBLE){
+        Boolean IsRemoved = null;
                 DBoperations dBoperations = new DBoperations(context);
-               Boolean isSucssu=  dBoperations.removeItem(movieNameString);
-                addToFav.setText(R.string.add_to_favorites);
+                IsRemoved= dBoperations.removeItem(movieNameString,context);
+                if(IsRemoved) {
+                    addToFav.setText(R.string.add_to_favorites);
+                    checkFav.setVisibility(View.INVISIBLE);
+                    revalAnimationRemove();
+                    Snackbar snackbar =Snackbar.make((findViewById(R.id.constraintLayout)),getString(R.string.removedfromDB),Snackbar.LENGTH_SHORT);
+                    snackbar.show();
+                }
 
+            }else {
+                new addtofav().execute();
             }
-            new addtofav().execute();
         }
     };
 
 //The class first checks if the movie exists in the DB. If true it changes the icon accordingly. If not it addes it to the
     //and changes the icon accordingly.
 
-    private class checkIfExists extends AsyncTask<Void,Void,Boolean>{
+     private void checkIfExists(String movieNameString, Context context){
 
 
-        @Override
-        protected Boolean doInBackground(Void... voids) {
             DBoperations dBoperations = new DBoperations(context);
             Boolean iSMovieExists = dBoperations.checkIfMovieExsits(movieNameString,context);
-            return iSMovieExists;
-        }
 
-        @Override
-        protected void onPostExecute(Boolean iSMovieExists) {
-            super.onPostExecute(iSMovieExists);
+
+
             if(iSMovieExists) {
                 plusFav.setVisibility(View.INVISIBLE);
                 addToFav.setText(R.string.favadded);
-                revalAnimation();
+
+                checkFav.setVisibility(View.VISIBLE);
+               // revalAnimation();
             }
 
 
-        }
+
     }
 
     private class addtofav extends AsyncTask<Void,Void,Void>{
@@ -128,7 +141,9 @@ public class MovieExpandActivity extends AppCompatActivity {
             super.onPostExecute(aVoid);
             plusFav.setVisibility(View.INVISIBLE);
             addToFav.setText(R.string.favadded);
-              revalAnimation();
+            addToFav.setTextColor(getResources().getColor(R.color.BLACK));
+
+            revalAnimationAdd();
 
 
         }
@@ -142,11 +157,11 @@ public class MovieExpandActivity extends AppCompatActivity {
                 if (isSuccses) {
 
                     Snackbar snackbar = Snackbar.make((findViewById(R.id.constraintLayout)),"Movie Added to favorites",Snackbar.LENGTH_SHORT);
-
+                    snackbar.show();
                 } else {
 
                     Snackbar snackbar = Snackbar.make((findViewById(R.id.constraintLayout)),"There was an issue adding this movie",Snackbar.LENGTH_SHORT);
-
+                    snackbar.show();
                 }
 
             } catch (SQLException e) {
@@ -158,7 +173,7 @@ public class MovieExpandActivity extends AppCompatActivity {
         }
     }
 
-    public  void revalAnimation( ) {
+    public  void revalAnimationAdd( ) {
         int cx = (checkFav.getWidth())/2;
         int cy = (checkFav.getHeight())/2;
         float finalRadius =  Math.max(checkFav.getWidth(), checkFav.getHeight());
@@ -173,6 +188,20 @@ public class MovieExpandActivity extends AppCompatActivity {
     }
 
 
+    public  void revalAnimationRemove( ) {
+        int cx = (plusFav.getWidth())/2;
+        int cy = (plusFav.getHeight())/2;
+        float finalRadius =  Math.max(plusFav.getWidth(), plusFav.getHeight());
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            Animator anim = ViewAnimationUtils.createCircularReveal(checkFav, cx, cy, 2, finalRadius);
+            plusFav.setVisibility(View.VISIBLE);
+            anim.start();
+        } else {
+            plusFav.setVisibility(View.VISIBLE);
+        }
+
+    }
+
 
     private void bindData(MovieObject movieObject){
         String movieDescr = movieObject.getMovieDescription();
@@ -186,8 +215,33 @@ public class MovieExpandActivity extends AppCompatActivity {
         movieExpandBinding.Description.setOnClickListener(onClickListener);
 
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
 
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.searchIcon:
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.favIcon:
+                Intent intentFav = new Intent(this, FavActivity.class);
+                startActivity(intentFav);
+                return true;
+
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 }
+
+
 
 
 

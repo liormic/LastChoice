@@ -16,7 +16,7 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="6dp"
         android:layout_marginRight="4dp"
-        android:elevation="4dp"
+        android:elevation="6dp"
         android:layout_marginLeft="4dp"
         android:layout_marginTop="6dp"
         android:background="#000000"

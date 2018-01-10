@@ -21,7 +21,7 @@ public class DBoperations {
 
     public DBoperations(Context context) {
         dBhelper = new DBhelper(context);
-        db = dBhelper.getWritableDatabase();
+       db = dBhelper.getWritableDatabase();
     }
 
     public void close() {
@@ -91,12 +91,14 @@ public class DBoperations {
     }
 
 
-    public Boolean removeItem(String name) {
-
+    public Boolean removeItem(String name, Context context) {
+        SQLiteDatabase db;
+        DBhelper dBhelper = new DBhelper(context);
+        db = dBhelper.getWritableDatabase();
         Boolean b = null;
         try {
-             b= db.delete(ContractDB.MovieData.TABLE_NAME,
-                    ContractDB.MovieData.COLUMN_MOVIENAME + "=" + name, null) > 0;
+            b= db.delete(ContractDB.MovieData.TABLE_NAME,
+                    ContractDB.MovieData.COLUMN_MOVIENAME + "='" + name+"'", null) > 0;
 
         } catch (SQLException e) {
             Log.e(TAG, "ERrror on removing" + e.getMessage());

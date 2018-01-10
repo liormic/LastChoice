@@ -5,4 +5,5 @@
     <color name="colorAccent">#f1c62a</color>
     <color name="BLACK">#000000</color>
     <color name="colorPrimaryLight">#1f1f1f</color>
+    <color name="addedToFav">#9b2af1</color>
 </resources>

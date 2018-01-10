@@ -19,7 +19,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.MovieSuggestions" />
+        <activity android:name=".Activities.MovieSuggestionsActivity" />
         <activity
             android:name=".Activities.MovieExpandActivity"
             android:label="@string/title_activity_movie_expand" />
@@ -27,7 +27,8 @@
         <activity
             android:name=".Activities.FavActivity"
             android:label="@string/title_activity_fav"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Activities.BaseActivity"></activity>
     </application>
 
 </manifest>

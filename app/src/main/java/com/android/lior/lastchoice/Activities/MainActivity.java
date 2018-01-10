@@ -1,6 +1,5 @@
 package com.android.lior.lastchoice.Activities;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -9,26 +8,18 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.support.v7.widget.Toolbar;
 
 import com.android.lior.lastchoice.Data.MovieObject;
 import com.android.lior.lastchoice.R;
@@ -56,19 +47,22 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
     private final static String ERRORINRESPONSE = "N/A";
     private final static String ERRORMESSAGE = "No matches found! Please try again";
     public Context context;
-
+    private  MenuItem search;
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //  setContentView(R.layout.activity_main);
         getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimary));
+        invalidateOptionsMenu();
         query = findViewById(R.id.Query);
+
         textView = findViewById(R.id.textHomeScreen);
         // makeQueryButton = (Button) findViewById(R.id.button);
         imageView = findViewById(R.id.imageView);
         pB = findViewById(R.id.progressBar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         pB.setVisibility(View.GONE);
         getSupportLoaderManager().initLoader(LOADERID, null, this);
         context = this;
@@ -226,7 +220,7 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
 
 
         query.setText("");
-        Intent intent = new Intent(this, MovieSuggestions.class);
+        Intent intent = new Intent(this, MovieSuggestionsActivity.class);
         intent.putParcelableArrayListExtra("MovieObjects", movieObjects);
         startActivity(intent);
 
@@ -253,6 +247,9 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        search = menu.findItem(R.id.searchIcon);
+        search.setVisible(false);
+
         return true;
     }
 

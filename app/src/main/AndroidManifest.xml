@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.android.lior.lastchoice">
-
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -28,7 +28,7 @@
             android:name=".Activities.FavActivity"
             android:label="@string/title_activity_fav"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Activities.BaseActivity"></activity>
+
     </application>
 
 </manifest>

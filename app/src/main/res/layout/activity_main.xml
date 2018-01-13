@@ -61,7 +61,7 @@
         android:layout_below="@+id/relativeLayout"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_vertical"
-        android:layout_marginTop="84dp"
+        android:layout_marginTop="64dp"
         app:srcCompat="@drawable/ic_icon_tv" />
 
     <TextView

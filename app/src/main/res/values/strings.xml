@@ -13,4 +13,8 @@
     <string name="noitems">You do not have any favorites. Yet.</string>
     <string name="removedfromDB">Movie removed from favorites</string>
     <string name="errorMessageGetAllItems">Error getting the items</string>
+    <string name="connectivtyMessage">This application requires an active network connection. Please make sure your phone is connected to the internet</string>
+    <string name="oops">Oops</string>
+    <string name="confirmMessage">I understand</string>
+    <string name="errorConnecting">Error connecting, please check your internet connection</string>
 </resources>

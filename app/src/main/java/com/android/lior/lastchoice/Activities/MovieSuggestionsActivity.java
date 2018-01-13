@@ -12,10 +12,11 @@ import android.view.MenuItem;
 import com.android.lior.lastchoice.Adapters.MovieAdapter;
 import com.android.lior.lastchoice.Data.MovieObject;
 import com.android.lior.lastchoice.R;
+import com.android.lior.lastchoice.ToolBarInterface;
 
 import java.util.ArrayList;
 
-public class MovieSuggestionsActivity extends BaseActivity implements MovieAdapter.ListItemClickListener{
+public class MovieSuggestionsActivity extends BaseActivity implements MovieAdapter.ListItemClickListener,ToolBarInterface{
 
     ArrayList<MovieObject> movieObjects;
     RecyclerView recyclerView;
@@ -24,6 +25,8 @@ public class MovieSuggestionsActivity extends BaseActivity implements MovieAdapt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_suggestions);
+        invalidateOptionsMenu();
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         recyclerView= (RecyclerView)findViewById(R.id.recyclerView);
@@ -62,6 +65,7 @@ public class MovieSuggestionsActivity extends BaseActivity implements MovieAdapt
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
         return true;
@@ -78,7 +82,6 @@ public class MovieSuggestionsActivity extends BaseActivity implements MovieAdapt
                 Intent intentFav = new Intent(this, FavActivity.class);
                 startActivity(intentFav);
                 return true;
-
 
             default:
                 return super.onOptionsItemSelected(item);

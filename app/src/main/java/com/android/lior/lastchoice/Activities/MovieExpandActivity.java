@@ -9,7 +9,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,11 +22,12 @@ import android.widget.TextView;
 import com.android.lior.lastchoice.Data.DBoperations;
 import com.android.lior.lastchoice.Data.MovieObject;
 import com.android.lior.lastchoice.R;
+import com.android.lior.lastchoice.ToolBarInterface;
 import com.android.lior.lastchoice.Utilities.ToastUtil;
 import com.android.lior.lastchoice.databinding.ActivityMovieExpandBinding;
 import com.squareup.picasso.Picasso;
 
-public class MovieExpandActivity extends BaseActivity {
+public class MovieExpandActivity extends BaseActivity implements ToolBarInterface{
    private static final String TAG = MovieExpandActivity.class.getSimpleName();
    private ImageView imageView;
    private TextView movieName;

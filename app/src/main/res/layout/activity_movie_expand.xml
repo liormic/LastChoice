@@ -3,24 +3,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/BLACK"
+
         android:visibility="visible">
 
 
-        <include
-            android:layout_height="0dp"
-            android:id="@+id/toolbarinclude"
-            layout="@layout/toolbar"
-            android:layout_width="wrap_content"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbarexpand"
+            android:layout_width="0dp"
+            android:layout_height="70dp"
 
-            app:layout_constraintTop_toTopOf="@id/webViewExpand"
+            android:minHeight="?attr/actionBarSize"
+            app:layout_constraintBottom_toTopOf="@+id/webViewExpand"
+
+
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintEnd_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             />
 
         <WebView
@@ -28,14 +31,13 @@
             android:layout_width="match_parent"
             android:layout_height="220dp"
             android:layout_marginBottom="16dp"
-            android:layout_marginTop="8dp"
             app:layout_constraintBottom_toTopOf="@+id/movieTitleExpand"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbarinclude"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/toolbarexpand">
 
         </WebView>
+
 
 
         <ImageView
@@ -221,5 +223,7 @@
         <!--</LinearLayout>-->
 
 
+
     </android.support.constraint.ConstraintLayout>
+
 </layout>

@@ -69,9 +69,6 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
         context = this;
         query = findViewById(R.id.Query);
         checkIfConnectedToInternet();
-
-
-
         textView = findViewById(R.id.textHomeScreen);
         // makeQueryButton = (Button) findViewById(R.id.button);
         imageView = findViewById(R.id.imageView);
@@ -276,6 +273,7 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
 
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

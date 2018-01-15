@@ -12,17 +12,22 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         android:windowSoftInputMode="stateVisible">
-        <activity android:name=".Activities.MainActivity">
+        <activity android:name=".Activities.MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+
             </intent-filter>
+
+
         </activity>
         <activity android:name=".Activities.MovieSuggestionsActivity" />
         <activity
             android:name=".Activities.MovieExpandActivity"
-            android:label="@string/title_activity_movie_expand" />
+            android:label="@string/title_activity_movie_expand"
+
+            />
         <activity android:name=".Activities.ExpandTextActivity" />
         <activity
             android:name=".Activities.FavActivity"

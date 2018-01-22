@@ -22,7 +22,7 @@ import java.util.ArrayList;
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MoviewViewHolder> {
 
     final private ListItemClickListener mOncClickListener;
-    private Boolean isFavScreen;
+    private final Boolean isFavScreen;
     private ArrayList<MovieObject> movieObjects = new ArrayList<>();
 
     public MovieAdapter(ArrayList<MovieObject> movieObjects,ListItemClickListener listener,Boolean isFavScreen){
@@ -60,10 +60,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MoviewViewHo
 
     class MoviewViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        ImageView imageView;
+        final ImageView imageView;
         Button buttonMore;
         Button buttonFav;
-        TextView textView;
+        final TextView textView;
 
 
         public MoviewViewHolder(View itemView) {

@@ -10,8 +10,8 @@ import android.view.MenuItem;
 public interface ToolBarInterface {
 
 
-    public boolean onCreateOptionsMenu(Menu menu);
-    public boolean onOptionsItemSelected(MenuItem item);
+     boolean onCreateOptionsMenu(Menu menu);
+     boolean onOptionsItemSelected(MenuItem item);
 
 
 

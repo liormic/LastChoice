@@ -8,7 +8,7 @@ import android.provider.BaseColumns;
 
 public class ContractDB   {
 
-    private ContractDB(){};
+    private ContractDB(){}
 
 
     public class MovieData implements BaseColumns{

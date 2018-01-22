@@ -2,12 +2,9 @@ package com.android.lior.lastchoice.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.android.lior.lastchoice.Adapters.MovieAdapter;
 import com.android.lior.lastchoice.Data.MovieObject;
@@ -18,13 +15,13 @@ import java.util.ArrayList;
 
 public class MovieSuggestionsActivity extends BaseActivity implements MovieAdapter.ListItemClickListener,ToolBarInterface{
 
-    ArrayList<MovieObject> movieObjects;
-    RecyclerView recyclerView;
-    MovieAdapter movieAdapter;
+    private ArrayList<MovieObject> movieObjects;
+    private RecyclerView recyclerView;
+    private MovieAdapter movieAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_movie_suggestions);
+      //  setContentView(R.layout.activity_movie_suggestions);
         invalidateOptionsMenu();
 
         setSupportActionBar(toolbar);
@@ -58,33 +55,36 @@ public class MovieSuggestionsActivity extends BaseActivity implements MovieAdapt
         cardView.setElevation(8);
         Intent intent = new Intent(this, MovieExpandActivity.class);
         intent.putExtra("MOVIEOBJECT",movieObjects.get(clickedItemIndex));
+
         startActivity(intent);
 
     }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.searchIcon:
-                Intent intent = new Intent(this, MainActivity.class);
-                startActivity(intent);
-                return true;
-            case R.id.favIcon:
-                Intent intentFav = new Intent(this, FavActivity.class);
-                startActivity(intentFav);
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//
+//        getMenuInflater().inflate(R.menu.menu_main, menu);
+//
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()) {
+//            case R.id.searchIcon:
+//                Intent intent = new Intent(this, MainActivity.class);
+//                startActivity(intent);
+//                return true;
+//            case R.id.favIcon:
+//                Intent intentFav = new Intent(this, FavActivity.class);
+//                startActivity(intentFav);
+//                return true;
+//            case R.id.homeAsUp:
+//                onBackPressed();
+//                return true;
+//            default:
+//                return super.onOptionsItemSelected(item);
+//        }
+//    }
 }

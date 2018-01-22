@@ -34,7 +34,7 @@ public class MovieExpandActivity extends AppCompatActivity implements ToolBarInt
     private static final String TAG = MovieExpandActivity.class.getSimpleName();
     private ImageView imageView;
     private TextView movieName;
-
+    private  int position;
     public MovieObject movieObject;
     private ImageView plusFav;
     private final static String errorMessageDb = "Oh No! Error on adding the movie";
@@ -49,17 +49,21 @@ public class MovieExpandActivity extends AppCompatActivity implements ToolBarInt
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_movie_expand);
+    // setContentView(R.layout.activity_movie_expand);
+        movieExpandBinding = DataBindingUtil.setContentView(this, R.layout.activity_movie_expand);
         Intent intent = getIntent();
-        Toolbar toolbar = findViewById(R.id.toolbarexpand);
+        position =intent.getIntExtra("position",1);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         if (toolbar != null) {
 
             setSupportActionBar(toolbar);
-
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        movieExpandBinding = DataBindingUtil.setContentView(this, R.layout.activity_movie_expand);
+
+
         addToFav = findViewById(R.id.addtofavtext);
         movieObject = intent.getParcelableExtra("MOVIEOBJECT");
         imageView = findViewById(R.id.imagePosterExpand);
@@ -88,20 +92,27 @@ public class MovieExpandActivity extends AppCompatActivity implements ToolBarInt
     }
 
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
-
-     //   menu.getItem(0).setEnabled(false); // here pass the index of save menu item
-        return super.onPrepareOptionsMenu(menu);
-
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
         return true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkIfExists(movieNameString, context);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        checkIfExists(movieNameString, context);
     }
 
     @Override
@@ -116,20 +127,22 @@ public class MovieExpandActivity extends AppCompatActivity implements ToolBarInt
                 startActivity(intentFav);
                 return true;
 
-
+            case R.id.homeAsUp:
+                onBackPressed();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    private View.OnClickListener onClickListener = new View.OnClickListener() {
+    private final View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
          startActivity(expandTextIntent);
         }
     };
 
-    private View.OnClickListener onClickListenerFav = new View.OnClickListener() {
+    private final View.OnClickListener onClickListenerFav = new View.OnClickListener() {
 
         @Override
         public void onClick(View view) {
@@ -141,8 +154,9 @@ public class MovieExpandActivity extends AppCompatActivity implements ToolBarInt
                     addToFav.setText(R.string.add_to_favorites);
                     checkFav.setVisibility(View.INVISIBLE);
                     revalAnimationRemove();
-                    Snackbar snackbar =Snackbar.make((findViewById(R.id.constraintLayout)),getString(R.string.removedfromDB),Snackbar.LENGTH_SHORT);
-                    snackbar.show();
+                    showSnackBar(getResources().getString(R.string.removedfromDB));
+                }else{
+                    showSnackBar(getResources().getString(R.string.errorRemoving));
                 }
 
             }else {
@@ -168,6 +182,11 @@ public class MovieExpandActivity extends AppCompatActivity implements ToolBarInt
 
                 checkFav.setVisibility(View.VISIBLE);
                // revalAnimation();
+            }else{
+                checkFav.setVisibility(View.INVISIBLE);
+                plusFav.setVisibility(View.VISIBLE);
+                addToFav.setText(R.string.add_to_favorites);
+
             }
 
 
@@ -196,12 +215,11 @@ public class MovieExpandActivity extends AppCompatActivity implements ToolBarInt
 
                 if (isSuccses) {
 
-                    Snackbar snackbar = Snackbar.make((findViewById(R.id.constraintLayout)),"Movie Added to favorites",Snackbar.LENGTH_SHORT);
-                    snackbar.show();
+                    showSnackBar(getResources().getString(R.string.succssAddingtoFav));
                 } else {
 
-                    Snackbar snackbar = Snackbar.make((findViewById(R.id.constraintLayout)),"There was an issue adding this movie",Snackbar.LENGTH_SHORT);
-                    snackbar.show();
+                    showSnackBar(getResources().getString(R.string.errorAddingMovie));
+
                 }
 
             } catch (SQLException e) {
@@ -211,6 +229,13 @@ public class MovieExpandActivity extends AppCompatActivity implements ToolBarInt
             }
             return null;
         }
+    }
+
+    public void showSnackBar(String messageSnackbar){
+        Snackbar snackbar = Snackbar.make((findViewById(R.id.constraintLayout)),messageSnackbar,Snackbar.LENGTH_SHORT);
+        View sb = snackbar.getView();
+        sb.setBackgroundColor(getResources().getColor(R.color.transperent));
+        snackbar.show();
     }
 
     public  void revalAnimationAdd( ) {

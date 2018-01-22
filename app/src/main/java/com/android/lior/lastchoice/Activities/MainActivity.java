@@ -1,6 +1,5 @@
 package com.android.lior.lastchoice.Activities;
 
-import android.accounts.NetworkErrorException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -8,7 +7,6 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
@@ -24,7 +22,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.lior.lastchoice.Data.MovieObject;
 import com.android.lior.lastchoice.R;
@@ -46,7 +43,7 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
     private ProgressBar pB;
     private EditText query;
     private static String queryString = "";
-    private static int LOADERID = 3233;
+    private static final int LOADERID = 3233;
     private Button makeQueryButton;
     private TextView textView;
     public String[] queryList = new String[2];
@@ -58,12 +55,18 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
     Boolean iSnetworkAvilabale;
 
 
+    @Override
+    public void onBackPressed() {
+       finish();
+
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //  setContentView(R.layout.activity_main);
+
         getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimary));
         invalidateOptionsMenu();
         context = this;
@@ -84,7 +87,7 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
         query.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH && isBusy != true) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH && !isBusy ){
                     performQuery();
                     return true;
                 }
@@ -123,15 +126,15 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
 
 
     @Override
-    public Loader<ArrayList<MovieObject>> onCreateLoader(int i, final Bundle bundle) {
+    public Loader<ArrayList<MovieObject>> onCreateLoader(int i, final Bundle bundle)   {
         return new AsyncTaskLoader<ArrayList<MovieObject>>(this) {
-            private volatile Thread thread;
+
 
             @Override
             protected void onStartLoading() {
 
                 super.onStartLoading();
-                if(checkIfConnectedToInternet()!=true){
+                if(!checkIfConnectedToInternet()){
                     cancelLoadInBackground();
                 }
                 if (bundle == null) {
@@ -182,7 +185,7 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
                     return null;
                 }
                 ArrayList<MovieObject> movieObjects = new ArrayList<>();
-                ;
+
                 try {
                     Boolean isHttp = false;
                     URL queryURLTaste = new URL(searchQueryUrlTaste);
@@ -219,8 +222,6 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
                 } catch (IOException e) {
                     e.printStackTrace();
                     return null;
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
                 return movieObjects;
 
@@ -238,6 +239,7 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
         Intent intent = new Intent(this, MovieSuggestionsActivity.class);
         intent.putParcelableArrayListExtra("MovieObjects", movieObjects);
         startActivity(intent);
+        finish();
 
 
     }
@@ -275,23 +277,23 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
     }
 
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.searchIcon:
-                Intent intent = new Intent(this, MainActivity.class);
-                startActivity(intent);
-                return true;
-            case R.id.favIcon:
-                Intent intentFav = new Intent(this, FavActivity.class);
-                startActivity(intentFav);
-                return true;
-
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()) {
+//            case R.id.searchIcon:
+//                Intent intent = new Intent(this, MainActivity.class);
+//                startActivity(intent);
+//                return true;
+//            case R.id.favIcon:
+//                Intent intentFav = new Intent(this, FavActivity.class);
+//                startActivity(intentFav);
+//                return true;
+//
+//
+//            default:
+//                return super.onOptionsItemSelected(item);
+//        }
+//    }
 
     public Boolean checkIfConnectedToInternet() {
 

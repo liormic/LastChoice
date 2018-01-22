@@ -6,4 +6,5 @@
     <color name="BLACK">#000000</color>
     <color name="colorPrimaryLight">#1f1f1f</color>
     <color name="addedToFav">#9b2af1</color>
+    <color name="transperent">#80000000</color>
 </resources>

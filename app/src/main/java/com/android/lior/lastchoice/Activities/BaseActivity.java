@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.android.lior.lastchoice.R;
@@ -29,22 +30,24 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (toolbar != null) {
 
             setSupportActionBar(toolbar);
-
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-
 
     }
 
 
-
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-
-        return super.onCreateOptionsMenu(menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+   return true;
     }
 
     @Override
@@ -58,7 +61,9 @@ public abstract class BaseActivity extends AppCompatActivity {
                 Intent intentFav = new Intent(this, FavActivity.class);
                 startActivity(intentFav);
                 return true;
-
+            case R.id.home:
+                onBackPressed();
+                return true;
 
             default:
                 return super.onOptionsItemSelected(item);

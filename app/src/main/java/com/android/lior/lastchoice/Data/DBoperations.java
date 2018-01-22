@@ -16,16 +16,12 @@ import static android.content.ContentValues.TAG;
  */
 
 public class DBoperations {
-    SQLiteDatabase db;
-    SQLiteOpenHelper dBhelper;
+    final SQLiteDatabase db;
+    final SQLiteOpenHelper dBhelper;
 
     public DBoperations(Context context) {
         dBhelper = new DBhelper(context);
        db = dBhelper.getWritableDatabase();
-    }
-
-    public void close() {
-        dBhelper.close();
     }
 
     public Cursor getAllitems() {
@@ -104,6 +100,17 @@ public class DBoperations {
             Log.e(TAG, "ERrror on removing" + e.getMessage());
         }
         return b;
+    }
+
+    public boolean removeAllItems(){
+
+        try {
+            db.delete(ContractDB.MovieData.TABLE_NAME, null, null);
+            db.close();
+            return true;
+        }catch (SQLException e){
+            return false;
+        }
     }
 }
 

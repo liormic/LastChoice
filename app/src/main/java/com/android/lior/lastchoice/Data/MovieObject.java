@@ -8,10 +8,10 @@ import android.os.Parcelable;
  */
 
 public class MovieObject implements Parcelable {
-    public  String MovieName = null;
-    public  String MovieDescription= null;
-    public  String MovieTrailer = null;
-    public  String moviePoster=null;
+    private   String MovieName = null;
+    private  String MovieDescription= null;
+    private  String MovieTrailer = null;
+    private  String moviePoster=null;
 
     public String getMovieRating() {
         return movieRating;

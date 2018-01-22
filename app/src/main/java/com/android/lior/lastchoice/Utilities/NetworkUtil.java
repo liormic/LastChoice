@@ -5,6 +5,8 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
 
+import com.android.lior.lastchoice.BuildConfig;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -30,20 +32,18 @@ public class NetworkUtil {
     private static final String LIMIT_PARAM_TASTE="limit";
     private static final String limittaste = "12";
     private static final String APIKEY_PARAM_TASTE= "k";
-    private static final String api_key_taste = "294364-LastTast-AEUE33KD";
+
     private static final String VERBOSE_PARAM_TASTE = "verbose";
     private static final String verbosetaste = "1";
 
     private static final String BASE_URL_EXTRA = "http://www.omdbapi.com/";
     private static final String QUERY_PARAM_EXTRA = "t";
-    private static final String api_key_extra = "b06448ae";
+
     private static final String APIKEY_PARAM_EXTRA= "apikey";
 
 
 
 
-
-    //https://tastedive.com/api/similar?q=snow+crash,book:way+of+kings&type=books&limit=5&k=294364-LastTast-AEUE33KD
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public static URL buildUrlTaste(String query) {
         Uri apiRequestUri = Uri.parse(BASE_URL_TASTE).buildUpon()
@@ -52,7 +52,7 @@ public class NetworkUtil {
                 .appendQueryParameter(LIMIT_PARAM_TASTE,limittaste)
                 .appendQueryParameter(INFO_PARAM_TASTE, infotaste)
                 .appendQueryParameter(VERBOSE_PARAM_TASTE, verbosetaste)
-                .appendQueryParameter(APIKEY_PARAM_TASTE, api_key_taste)
+                .appendQueryParameter(APIKEY_PARAM_TASTE, BuildConfig.api_key_taste)
                 .build();
         try {
             URL apiRequestUrl = new URL(apiRequestUri.toString());
@@ -67,7 +67,7 @@ public class NetworkUtil {
     public static URL buildUrlExtraData(String query){
         Uri apiRequestUriExtra = Uri.parse(BASE_URL_EXTRA).buildUpon()
                 .appendQueryParameter(QUERY_PARAM_EXTRA,query)
-                .appendQueryParameter(APIKEY_PARAM_EXTRA,api_key_extra)
+                .appendQueryParameter(APIKEY_PARAM_EXTRA,BuildConfig.api_key_extra)
                 .build();
         try{
             URL apiRequestUrlExtra = new URL(apiRequestUriExtra.toString());
@@ -96,7 +96,7 @@ public class NetworkUtil {
 
     }
 
-    public static String createHttpconncetion(HttpURLConnection urlConnection, Boolean isHttp) throws IOException {
+    private static String createHttpconncetion(HttpURLConnection urlConnection, Boolean isHttp) throws IOException {
 
 
         try{

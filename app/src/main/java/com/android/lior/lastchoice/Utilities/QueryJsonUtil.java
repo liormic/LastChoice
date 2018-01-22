@@ -21,7 +21,7 @@ public class QueryJsonUtil {
     private static final String MOVIE_POSTER="Poster";
     private static final String MOVIE_RATING="imdbRating";
     private JSONObject object;
-    private ArrayList<MovieObject> movieObjects = new ArrayList<>();
+    private final ArrayList<MovieObject> movieObjects = new ArrayList<>();
 
 
     public  ArrayList<MovieObject> getJsonStrings(String resultsFromJsonTaste) throws JSONException{
@@ -51,7 +51,7 @@ public class QueryJsonUtil {
         return movieObjects;
        }
 
-       public MovieObject getJsonStringsExtra (String resultsFromJsonExtra) throws  JSONException {
+       public MovieObject getJsonStringsExtra (String resultsFromJsonExtra) {
            MovieObject movieObject = null;
 //           if(resultsFromJsonExtra=="N/A"){
 //

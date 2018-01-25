@@ -4,13 +4,13 @@ import android.content.Context;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.nfc.Tag;
 import android.util.Log;
 
 /**
  * Created by lior on 12/27/17.
  */
 
+@SuppressWarnings("DefaultFileTemplate")
 public class DBhelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "movies.db";

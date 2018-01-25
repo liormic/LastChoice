@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,6 +18,7 @@ import java.util.ArrayList;
  * Created by Lior on 12/31/2017.
  */
 
+@SuppressWarnings("DefaultFileTemplate")
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MoviewViewHolder> {
 
     final private ListItemClickListener mOncClickListener;
@@ -61,8 +61,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MoviewViewHo
     class MoviewViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         final ImageView imageView;
-        Button buttonMore;
-        Button buttonFav;
         final TextView textView;
 
 
@@ -73,7 +71,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MoviewViewHo
             //buttonMore= (Button) itemView.findViewById(R.id.buttonMore);
             //buttonFav = (Butto) itemView.findViewById(R.id.buttonFav);
             imageView = itemView.findViewById(R.id.imageView2);
-            textView = (TextView) itemView.findViewById(R.id.sugText);
+            textView = itemView.findViewById(R.id.sugText);
             itemView.setOnClickListener(this);
 
 

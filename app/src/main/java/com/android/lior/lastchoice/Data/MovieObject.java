@@ -7,6 +7,7 @@ import android.os.Parcelable;
  * Created by Lior on 12/25/2017.
  */
 
+@SuppressWarnings("DefaultFileTemplate")
 public class MovieObject implements Parcelable {
     private   String MovieName = null;
     private  String MovieDescription= null;
@@ -21,7 +22,7 @@ public class MovieObject implements Parcelable {
         this.movieRating = movieRating;
     }
 
-    public  String movieRating = null;
+    private String movieRating = null;
     public String getMoviePoster() {
         return moviePoster;
     }
@@ -47,9 +48,7 @@ public class MovieObject implements Parcelable {
         return MovieName;
     }
 
-    public void setMovieName(String movieName) {
-        MovieName = movieName;
-    }
+
 
     public String getMovieDescription() {
         return MovieDescription;
@@ -70,7 +69,7 @@ public class MovieObject implements Parcelable {
 
 
 
-    protected MovieObject(Parcel in) {
+    private MovieObject(Parcel in) {
         MovieName = in.readString();
         MovieDescription = in.readString();
         MovieTrailer = in.readString();

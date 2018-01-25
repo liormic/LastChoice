@@ -1,10 +1,10 @@
 <resources>
-    <string name="app_name">LastChoice</string>
+    <string name="app_name">Last Choice</string>
     <string name="title_activity_movie_expand">MovieExpandActivity</string>
     <string name="picture_transition_name" translatable="false">picture_transition</string>
     <string name="favadded">Added to Favorites</string>
     <string name="add_to_favorites">Add to Favorites</string>
-    <string name="homeScreenText">Enter a movie you liked and get your recommandations </string>
+    <string name="homeScreenText">Enter a movie you liked and get recommendations</string>
     <string name="what_film_did_you_liked">What movie did you liked?</string>
     <string name="title_activity_fav">FavActivity</string>
     <string name="favorites">Favorites</string>
@@ -13,11 +13,11 @@
     <string name="removedfromDB">Movie removed from favorites</string>
     <string name="errorMessageGetAllItems">Error getting the items</string>
     <string name="connectivtyMessage">This application requires an active network connection. Please make sure your phone is connected to the internet</string>
-    <string name="oops">Oops</string>
     <string name="confirmMessage">I understand</string>
-    <string name="errorConnecting">Error connecting, please check your internet connection</string>
     <string name="deleteAll">Are you sure you want to delete all of your favorites?</string>
     <string name="succssAddingtoFav">Movie added to favorites!</string>
     <string name="errorAddingMovie">There was an issue adding this movie</string>
     <string name="errorRemoving">There was an issue removing the movie</string>
+    <string name="timeoutstring">Timeout! Please check your connection</string>
+    <string name="errorconnectingstring">Error connecting! Please check your connection</string>
 </resources>

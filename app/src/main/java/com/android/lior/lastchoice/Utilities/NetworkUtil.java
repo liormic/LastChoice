@@ -1,16 +1,20 @@
 package com.android.lior.lastchoice.Utilities;
 
+import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
 
 import com.android.lior.lastchoice.BuildConfig;
+import com.android.lior.lastchoice.R;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.util.Scanner;
 
@@ -20,13 +24,13 @@ import javax.net.ssl.HttpsURLConnection;
  * Created by lior on 12/24/17.
  */
 
-public class NetworkUtil {
+@SuppressWarnings("DefaultFileTemplate")
+public class NetworkUtil  {
     private static final String TAG = NetworkUtil.class.getSimpleName();
     private static final String BASE_URL_TASTE = "https://tastedive.com/api/similar";
-    private static final String format = "JSON";
     private static final String QUERY_PARAM_TASTE = "q";
     private static final String TYPE_PARAM_TASTE = "type";
-    private static final String typetaste = "movie";
+    private static final String typetaste = "movies";
     private static final String infotaste = "1";
     private static final String INFO_PARAM_TASTE= "info";
     private static final String LIMIT_PARAM_TASTE="limit";
@@ -63,7 +67,7 @@ public class NetworkUtil {
             return null;
         }
     }
-    
+
     public static URL buildUrlExtraData(String query){
         Uri apiRequestUriExtra = Uri.parse(BASE_URL_EXTRA).buildUpon()
                 .appendQueryParameter(QUERY_PARAM_EXTRA,query)
@@ -80,27 +84,45 @@ public class NetworkUtil {
 
     }
 
-    public static String getResponsefromUrl(URL url,Boolean isHttp) throws IOException {
+    public static String getResponsefromUrl(URL url,Boolean isHttp,Context context) throws IOException {
 
         String results;
 
-        if(isHttp=true ){
-             HttpURLConnection HttpUrlConnection =(HttpURLConnection)url.openConnection();
-             results = createHttpconncetion(HttpUrlConnection,isHttp);
-             return  results;
+
+        if(isHttp){
+            HttpURLConnection httpUrlConnection =(HttpURLConnection)url.openConnection();
+            results = createHttpConnection(httpUrlConnection,context);
+            return  results;
         }else{
-            HttpsURLConnection HttpSurlConnection =(HttpsURLConnection)url.openConnection();
-            results = createHttpconncetion(HttpSurlConnection,isHttp);
+            HttpsURLConnection httpsUrlConnection =(HttpsURLConnection)url.openConnection();
+            httpsUrlConnection.setConnectTimeout(5000);
+            httpsUrlConnection.setReadTimeout(5000);
+
+            results = createHttpConnection(httpsUrlConnection,context);
             return  results;
         }
 
     }
 
-    private static String createHttpconncetion(HttpURLConnection urlConnection, Boolean isHttp) throws IOException {
+    private static String createHttpConnection(HttpURLConnection urlConnection,Context context) throws IOException {
 
+
+        BufferedReader in = null;
 
         try{
-            InputStream in = urlConnection.getInputStream();
+
+
+
+            try {
+
+                in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+
+            }catch(SocketTimeoutException e) {
+                ToastUtil.createToast(context.getString(R.string.timeoutstring), context);
+                Log.e(TAG, "error:" + e.getMessage());
+            }
+
+
             Scanner scanner = new Scanner(in);
             scanner.useDelimiter("\\A");
 
@@ -124,6 +146,11 @@ public class NetworkUtil {
 
 
 
+    }
 
 
-}
+
+
+
+
+

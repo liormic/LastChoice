@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
@@ -31,76 +30,69 @@ import java.util.TimerTask;
 
 public class FavActivity extends BaseActivity implements MovieAdapter.ListItemClickListener,LoaderManager.LoaderCallbacks<ArrayList<MovieObject>> {
 
-  private static final String TAG = FavActivity.class.getSimpleName();
-  private  MovieAdapter movieAdapter;
-  private  RecyclerView recyclerView;
-  public   ArrayList<MovieObject> movieObjects;
-  private  DBoperations dBoperations;
-  private  MenuItem fav;
-  private  RelativeLayout relativeLayout;
-  private Context context;
-  private Handler handler;
-  public static Timer timer;
-  private static final int LOADERID =34;
-  private final int interval= 2400;
+    private static final String TAG = FavActivity.class.getSimpleName();
+    private  RecyclerView recyclerView;
+    private ArrayList<MovieObject> movieObjects;
+    private  DBoperations dBoperations;
+    private  RelativeLayout relativeLayout;
+    private Context context;
+    private static Timer timer;
+    private static final int LOADERID =34;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-   //     setContentView(R.layout.activity_fav);
+        //     setContentView(R.layout.activity_fav);
 
         getSupportLoaderManager().initLoader(LOADERID, null, this);
         initRecyclerView();
 
 
-            context=this;
+        context=this;
     }
 
 
     @Override
     protected int getLayoutResource() {
 
-
-
         return R.layout.activity_fav;
     }
 
 
 
-    public ArrayList<MovieObject>  getMovieObjectFromCursor(Cursor cursor){
-         ArrayList<MovieObject> movieObjectsArray = new ArrayList<>();
+    private ArrayList<MovieObject>  getMovieObjectFromCursor(Cursor cursor){
+        ArrayList<MovieObject> movieObjectsArray = new ArrayList<>();
         if(cursor.getCount()<1) {
 
             setContentView(R.layout.fav_layout__no_items);
             return null;
         }
 
-            int movieNameCol = cursor.getColumnIndex(ContractDB.MovieData.COLUMN_MOVIENAME);
-            int movieTrailerUrlCol=cursor.getColumnIndex(ContractDB.MovieData.COLUMN_YOUTUBEURL);
-            int moviePosterCol = cursor.getColumnIndex(ContractDB.MovieData.COLUMN_MOVIEIMAGE);
-            int movieRatingCol = cursor.getColumnIndex(ContractDB.MovieData.COLUMN_MOVIERATING);
-            int movieDescCol = cursor.getColumnIndex(ContractDB.MovieData.COLUMN_Description);
-            while (cursor.moveToNext()){
+        int movieNameCol = cursor.getColumnIndex(ContractDB.MovieData.COLUMN_MOVIENAME);
+        int movieTrailerUrlCol=cursor.getColumnIndex(ContractDB.MovieData.COLUMN_YOUTUBEURL);
+        int moviePosterCol = cursor.getColumnIndex(ContractDB.MovieData.COLUMN_MOVIEIMAGE);
+        int movieRatingCol = cursor.getColumnIndex(ContractDB.MovieData.COLUMN_MOVIERATING);
+        int movieDescCol = cursor.getColumnIndex(ContractDB.MovieData.COLUMN_Description);
+        while (cursor.moveToNext()){
 
             MovieObject movieObject = new MovieObject(cursor.getString(movieNameCol)
-                                      ,cursor.getString(movieDescCol)
-                                      ,cursor.getString(movieTrailerUrlCol)
-                                      ,cursor.getString(moviePosterCol)
-                                      ,cursor.getString(movieRatingCol));
+                    ,cursor.getString(movieDescCol)
+                    ,cursor.getString(movieTrailerUrlCol)
+                    ,cursor.getString(moviePosterCol)
+                    ,cursor.getString(movieRatingCol));
             movieObjectsArray.add(movieObject);
 
 
         }
 
-      cursor.close();
-      return movieObjectsArray;
+        cursor.close();
+        return movieObjectsArray;
     }
 
-    MenuItem bin;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        bin = menu.findItem(R.id.favIcon);
+        MenuItem bin = menu.findItem(R.id.favIcon);
         bin.setIcon(R.drawable.ic_delete_black_24dp);
 
         return true;
@@ -151,7 +143,7 @@ public class FavActivity extends BaseActivity implements MovieAdapter.ListItemCl
     }
 
 
-    public void initRecyclerView(){
+    private void initRecyclerView(){
         recyclerView =  findViewById(R.id.recyclerViewFav);
         relativeLayout = findViewById(R.id.relativeLayoutNoItems);
         dBoperations = new DBoperations(this);
@@ -167,7 +159,7 @@ public class FavActivity extends BaseActivity implements MovieAdapter.ListItemCl
 
     }
 
-    public  void createDialogFav() {
+    private void createDialogFav() {
 
         final AlertDialog alertDialog = new AlertDialog.Builder(context).create();
         alertDialog.setMessage(getString(R.string.deleteAll));
@@ -232,7 +224,7 @@ public class FavActivity extends BaseActivity implements MovieAdapter.ListItemCl
                 if(movieObjects!=null) {
                     setupRecyclerView(movieObjects);
                 }else{
-                forceLoad();
+                    forceLoad();
                 }
 
             }
@@ -249,10 +241,10 @@ public class FavActivity extends BaseActivity implements MovieAdapter.ListItemCl
 
     }
 
-    public void setupRecyclerView(ArrayList<MovieObject> movieObjects){
+    private void setupRecyclerView(ArrayList<MovieObject> movieObjects){
 
         if (movieObjects != null) {
-            movieAdapter = new MovieAdapter(movieObjects, this,true);
+            MovieAdapter movieAdapter = new MovieAdapter(movieObjects, this, true);
             recyclerView.setAdapter(movieAdapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
             recyclerView.setHasFixedSize(true);
@@ -260,7 +252,7 @@ public class FavActivity extends BaseActivity implements MovieAdapter.ListItemCl
 
             recyclerView.setVisibility(View.INVISIBLE);
             relativeLayout.setVisibility(View.VISIBLE);
-             timer = new Timer();
+            timer = new Timer();
             TimerTask timerTask = new TimerTask() {
                 @Override
                 public void run() {
@@ -268,7 +260,8 @@ public class FavActivity extends BaseActivity implements MovieAdapter.ListItemCl
                     finish();
                 }
             };
-            timer.schedule(timerTask,interval);
+            int interval = 2400;
+            timer.schedule(timerTask, interval);
         }
     }
 

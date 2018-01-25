@@ -50,7 +50,7 @@
                 android:layout_gravity="center_vertical|center_horizontal"
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="10dp"
-                android:text="TextView"
+
                 android:textColor="#FFF" />
 
 

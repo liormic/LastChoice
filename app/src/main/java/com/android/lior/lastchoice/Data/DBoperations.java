@@ -15,12 +15,12 @@ import static android.content.ContentValues.TAG;
  * Created by lior on 12/27/17.
  */
 
+@SuppressWarnings("DefaultFileTemplate")
 public class DBoperations {
-    final SQLiteDatabase db;
-    final SQLiteOpenHelper dBhelper;
+    private final SQLiteDatabase db;
 
     public DBoperations(Context context) {
-        dBhelper = new DBhelper(context);
+        SQLiteOpenHelper dBhelper = new DBhelper(context);
        db = dBhelper.getWritableDatabase();
     }
 
@@ -44,10 +44,9 @@ public class DBoperations {
         String[] columns = {ContractDB.MovieData.COLUMN_MOVIENAME};
         String selection = ContractDB.MovieData.COLUMN_MOVIENAME + "=?";
         String[] selectionArgs = {movieName};
-        String groupBy = null;
-        String having = null;
 
-        Cursor cursor = db.query(table, columns, selection, selectionArgs, groupBy, having, null, null);
+
+        Cursor cursor = db.query(table, columns, selection, selectionArgs, null, null, null, null);
 
         if (cursor.getCount() < 1) {
             cursor.close();

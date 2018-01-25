@@ -5,6 +5,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
+        android:fillViewport="true"
         android:layout_height="match_parent"
         android:background="@color/colorPrimary">
 
@@ -12,8 +13,8 @@
             android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorPrimary"
 
+            android:background="@color/colorPrimary"
             android:visibility="visible">
 
 
@@ -35,30 +36,15 @@
             <WebView
                 android:id="@+id/webViewExpand"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="305dp"
                 android:layout_marginBottom="8dp"
                 app:layout_constraintBottom_toTopOf="@+id/movieTitleExpand"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
             </WebView>
-
-
-            <ImageView
-                android:id="@+id/imagePosterExpand"
-                android:layout_width="103dp"
-                android:layout_height="130dp"
-                android:layout_marginEnd="4dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="28dp"
-                app:layout_constraintEnd_toStartOf="@+id/Description"
-                app:layout_constraintStart_toStartOf="parent"
-
-                app:layout_constraintTop_toBottomOf="@+id/view"
-                app:layout_constraintVertical_bias="0.167"
-
-                app:srcCompat="@mipmap/ic_launcher" />
 
 
             <TextView
@@ -67,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"
                 android:layout_marginStart="6dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="8dp"
                 android:fontFamily="sans-serif-light"
                 android:textColor="#FFF"
                 app:layout_constraintBottom_toBottomOf="@+id/view"
@@ -77,95 +63,104 @@
                 app:layout_constraintTop_toBottomOf="@+id/webViewExpand"
                 app:layout_constraintVertical_bias="0.0" />
 
-            <TextView
-                android:id="@+id/Description"
-                android:layout_width="240dp"
-                android:layout_height="123dp"
-                android:layout_gravity="fill"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="4dp"
-                android:baselineAligned="false"
-
-                android:ellipsize="end"
-                android:includeFontPadding="false"
-                android:maxHeight="120dp"
-                android:maxLines="7"
-                android:textColor="@android:color/white"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toEndOf="@+id/imagePosterExpand"
-                app:layout_constraintTop_toBottomOf="@+id/view"
-                app:layout_constraintVertical_bias="0.202"
-                tools:text="sdfsdf sdf sdfsdf  sdfs dfsdfsdf  sdfsdfsdf  sdfsdfsdf s dfsdfsdf sdfsdf" />
-
-            <ImageView
-                android:id="@+id/starRating"
-                android:layout_width="35dp"
-                android:layout_height="41dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginStart="16dp"
-                android:tint="@color/colorAccent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/ratingText"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imagePosterExpand"
-                app:layout_constraintVertical_bias="1.0"
-                app:srcCompat="@drawable/ic_star_black_24dp" />
-
-            <TextView
-                android:id="@+id/ratingText"
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="68dp"
-                android:layout_marginTop="12dp"
-
-                android:textColor="@android:color/white"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/addtofavtext"
-                app:layout_constraintTop_toBottomOf="@+id/imagePosterExpand"
-                app:layout_constraintVertical_bias="0.724" />
-
             <View
                 android:id="@+id/view"
                 android:layout_width="match_parent"
-
                 android:layout_height="1dp"
-
-                android:layout_marginBottom="32dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:background="@android:color/darker_gray"
-                app:layout_constraintBottom_toTopOf="@+id/imagePosterExpand"
-
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/movieTitleExpand" />
+                app:layout_constraintTop_toBottomOf="@+id/movieTitleExpand" />
+
+            <ImageView
+                android:id="@+id/imagePosterExpand"
+                android:layout_width="172dp"
+                android:layout_height="191dp"
+
+
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view"
+                app:srcCompat="@mipmap/ic_launcher" />
 
             <TextView
 
                 android:id="@+id/addtofavtext"
                 android:layout_width="180dp"
                 android:layout_height="45dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
+
+                android:layout_marginBottom="59dp"
+                android:layout_marginStart="39dp"
+                android:layout_marginTop="6dp"
                 android:background="@drawable/ripple"
                 android:gravity="center"
-
                 android:text="@string/add_to_favorites"
                 android:textColor="@android:color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imagePosterExpand"
+                app:layout_constraintTop_toBottomOf="@+id/Description"
+                app:layout_constraintVertical_bias="0.45999998" />
+
+
+            <TextView
+                android:id="@+id/Description"
+                android:layout_width="340dp"
+                android:layout_height="123dp"
+                android:layout_gravity="fill"
+
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:baselineAligned="false"
+                android:ellipsize="end"
+
+                android:includeFontPadding="false"
+                android:maxHeight="120dp"
+                android:maxLines="7"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.829"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/Description" />
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/imagePosterExpand"
+                app:layout_constraintTop_toBottomOf="@+id/view"
+                tools:text="sdfsdf sdf sdfsdf  sdfs dfsdfsdf  sdfsdfsdf  sdfsdfsdf s dfsdfsdf sdfsdf" />
+
+            <ImageView
+                android:id="@+id/starRating"
+                android:layout_width="35dp"
+                android:layout_height="41dp"
+                android:layout_marginBottom="68dp"
+                android:layout_marginEnd="4dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="7dp"
+                android:tint="@color/colorAccent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/ratingText"
+                app:layout_constraintHorizontal_bias="0.6"
+                app:layout_constraintStart_toEndOf="@+id/addtofavtext"
+                app:layout_constraintTop_toBottomOf="@+id/Description"
+                app:srcCompat="@drawable/ic_star_black_24dp" />
+
+            <ImageView
+                android:id="@+id/imagePlus"
+                android:layout_width="24dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:foregroundGravity="clip_vertical"
+                android:tint="?attr/colorPrimaryDark"
+                app:layout_constraintBottom_toBottomOf="@+id/addtofavtext"
+                app:layout_constraintEnd_toEndOf="@+id/addtofavtext"
+                app:layout_constraintHorizontal_bias="0.057"
+                app:layout_constraintStart_toStartOf="@+id/addtofavtext"
+                app:layout_constraintTop_toTopOf="@+id/addtofavtext"
+                app:layout_constraintVertical_bias="0.615"
+                app:srcCompat="@drawable/ic_bookmark_black_24dp" />
 
             <ImageView
                 android:id="@+id/imageCheck"
@@ -186,44 +181,39 @@
                 app:layout_constraintVertical_bias="0.384"
                 app:srcCompat="@drawable/ic_check_black_24dp" />
 
+
             <TextView
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
+                android:layout_marginBottom="78dp"
+                android:layout_marginEnd="150dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="15dp"
                 android:text="/10"
-                android:layout_marginBottom="3dp"
-                android:layout_marginEnd="40dp"
-                android:layout_marginTop="16dp"
                 android:textColor="@android:color/white"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/addtofavtext"
-                app:layout_constraintHorizontal_bias="0.2"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/ratingText"
-                app:layout_constraintTop_toBottomOf="@+id/imagePosterExpand"
-                app:layout_constraintVertical_bias="0.68" />
+                app:layout_constraintTop_toBottomOf="@+id/Description" />
 
-            <ImageView
-                android:id="@+id/imagePlus"
-                android:layout_width="24dp"
+            <TextView
+                android:id="@+id/ratingText"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_marginEnd="12dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="4dp"
-                android:foregroundGravity="clip_vertical"
-                android:tint="?attr/colorPrimaryDark"
-                app:layout_constraintBottom_toBottomOf="@+id/addtofavtext"
-                app:layout_constraintEnd_toEndOf="@+id/addtofavtext"
-                app:layout_constraintHorizontal_bias="0.057"
-                app:layout_constraintStart_toStartOf="@+id/addtofavtext"
-                app:layout_constraintTop_toTopOf="@+id/addtofavtext"
-                app:layout_constraintVertical_bias="0.615"
-                app:srcCompat="@drawable/ic_bookmark_black_24dp" />
-
-
-            <!--</LinearLayout>-->
-
+                android:layout_marginBottom="78dp"
+                android:layout_marginEnd="4dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="15dp"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/textView2"
+                app:layout_constraintStart_toEndOf="@+id/starRating"
+                app:layout_constraintTop_toBottomOf="@+id/Description"
+                tools:text="6.2" />
 
         </android.support.constraint.ConstraintLayout>
     </ScrollView>

@@ -2,9 +2,7 @@ package com.android.lior.lastchoice.Data;
 
 import android.provider.BaseColumns;
 
-/**
- * Created by lior on 12/25/17.
- */
+
 
 public class ContractDB   {
 

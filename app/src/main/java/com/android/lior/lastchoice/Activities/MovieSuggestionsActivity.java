@@ -16,23 +16,23 @@ import java.util.ArrayList;
 public class MovieSuggestionsActivity extends BaseActivity implements MovieAdapter.ListItemClickListener,ToolBarInterface{
 
     private ArrayList<MovieObject> movieObjects;
-    private RecyclerView recyclerView;
-    private MovieAdapter movieAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-      //  setContentView(R.layout.activity_movie_suggestions);
+        //  setContentView(R.layout.activity_movie_suggestions);
         invalidateOptionsMenu();
-
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        recyclerView= (RecyclerView)findViewById(R.id.recyclerView);
+        if (toolbar != null){
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
         Intent intent = getIntent();
         movieObjects=  intent.getParcelableArrayListExtra("MovieObjects");
         GridLayoutManager gridLayoutManager= new GridLayoutManager(this,3);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setHasFixedSize(true);
-        movieAdapter = new MovieAdapter(movieObjects,this,false);
+        MovieAdapter movieAdapter = new MovieAdapter(movieObjects, this, false);
         recyclerView.setAdapter(movieAdapter);
     }
 
@@ -60,31 +60,4 @@ public class MovieSuggestionsActivity extends BaseActivity implements MovieAdapt
 
     }
 
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//
-//        getMenuInflater().inflate(R.menu.menu_main, menu);
-//
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case R.id.searchIcon:
-//                Intent intent = new Intent(this, MainActivity.class);
-//                startActivity(intent);
-//                return true;
-//            case R.id.favIcon:
-//                Intent intentFav = new Intent(this, FavActivity.class);
-//                startActivity(intentFav);
-//                return true;
-//            case R.id.homeAsUp:
-//                onBackPressed();
-//                return true;
-//            default:
-//                return super.onOptionsItemSelected(item);
-//        }
-//    }
 }

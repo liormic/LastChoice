@@ -15,7 +15,7 @@ public class ExpandTextActivity extends BaseActivity {
       //  setContentView(R.layout.activity_expand_text);
         Intent intent = getIntent();
         MovieObject movieObject = intent.getParcelableExtra("MOVIEOBJECTE");
-        TextView textView = (TextView)findViewById(R.id.fullDescription);
+        TextView textView = findViewById(R.id.fullDescription);
         textView.setText(movieObject.getMovieDescription());
     }
 

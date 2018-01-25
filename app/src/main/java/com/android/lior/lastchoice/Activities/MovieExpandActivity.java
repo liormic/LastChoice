@@ -7,7 +7,6 @@ import android.database.SQLException;
 import android.databinding.DataBindingUtil;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -33,26 +32,23 @@ import com.squareup.picasso.Picasso;
 public class MovieExpandActivity extends AppCompatActivity implements ToolBarInterface {
     private static final String TAG = MovieExpandActivity.class.getSimpleName();
     private ImageView imageView;
-    private TextView movieName;
-    private  int position;
-    public MovieObject movieObject;
+    private MovieObject movieObject;
     private ImageView plusFav;
     private final static String errorMessageDb = "Oh No! Error on adding the movie";
-    private ConstraintLayout constraintLayout;
     private TextView addToFav;
     private ImageView checkFav;
-    public Context context;
-    public String movieNameString;
+    private Context context;
+    private String movieNameString;
     private Intent expandTextIntent;
-    ActivityMovieExpandBinding movieExpandBinding;
+    private ActivityMovieExpandBinding movieExpandBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    // setContentView(R.layout.activity_movie_expand);
+        // setContentView(R.layout.activity_movie_expand);
         movieExpandBinding = DataBindingUtil.setContentView(this, R.layout.activity_movie_expand);
         Intent intent = getIntent();
-        position =intent.getIntExtra("position",1);
+       // int position =intent.getIntExtra("position",1);
         Toolbar toolbar = findViewById(R.id.toolbar);
         if (toolbar != null) {
 
@@ -138,7 +134,7 @@ public class MovieExpandActivity extends AppCompatActivity implements ToolBarInt
     private final View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-         startActivity(expandTextIntent);
+            startActivity(expandTextIntent);
         }
     };
 
@@ -147,7 +143,7 @@ public class MovieExpandActivity extends AppCompatActivity implements ToolBarInt
         @Override
         public void onClick(View view) {
             if(  checkFav.getVisibility() == View.VISIBLE){
-        Boolean IsRemoved = null;
+                Boolean IsRemoved = null;
                 DBoperations dBoperations = new DBoperations(context);
                 IsRemoved= dBoperations.removeItem(movieNameString,context);
                 if(IsRemoved) {
@@ -168,26 +164,26 @@ public class MovieExpandActivity extends AppCompatActivity implements ToolBarInt
 //The class first checks if the movie exists in the DB. If true it changes the icon accordingly. If not it addes it to the
     //and changes the icon accordingly.
 
-     private void checkIfExists(String movieNameString, Context context){
+    private void checkIfExists(String movieNameString, Context context){
 
 
-            DBoperations dBoperations = new DBoperations(context);
-            Boolean iSMovieExists = dBoperations.checkIfMovieExsits(movieNameString,context);
+        DBoperations dBoperations = new DBoperations(context);
+        Boolean iSMovieExists = dBoperations.checkIfMovieExsits(movieNameString,context);
 
 
 
-            if(iSMovieExists) {
-                plusFav.setVisibility(View.INVISIBLE);
-                addToFav.setText(R.string.favadded);
+        if(iSMovieExists) {
+            plusFav.setVisibility(View.INVISIBLE);
+            addToFav.setText(R.string.favadded);
 
-                checkFav.setVisibility(View.VISIBLE);
-               // revalAnimation();
-            }else{
-                checkFav.setVisibility(View.INVISIBLE);
-                plusFav.setVisibility(View.VISIBLE);
-                addToFav.setText(R.string.add_to_favorites);
+            checkFav.setVisibility(View.VISIBLE);
+            // revalAnimation();
+        }else{
+            checkFav.setVisibility(View.INVISIBLE);
+            plusFav.setVisibility(View.VISIBLE);
+            addToFav.setText(R.string.add_to_favorites);
 
-            }
+        }
 
 
 
@@ -231,14 +227,14 @@ public class MovieExpandActivity extends AppCompatActivity implements ToolBarInt
         }
     }
 
-    public void showSnackBar(String messageSnackbar){
+    private void showSnackBar(String messageSnackbar){
         Snackbar snackbar = Snackbar.make((findViewById(R.id.constraintLayout)),messageSnackbar,Snackbar.LENGTH_SHORT);
         View sb = snackbar.getView();
         sb.setBackgroundColor(getResources().getColor(R.color.transperent));
         snackbar.show();
     }
 
-    public  void revalAnimationAdd( ) {
+    private void revalAnimationAdd() {
         int cx = (checkFav.getWidth())/2;
         int cy = (checkFav.getHeight())/2;
         float finalRadius =  Math.max(checkFav.getWidth(), checkFav.getHeight());
@@ -253,7 +249,7 @@ public class MovieExpandActivity extends AppCompatActivity implements ToolBarInt
     }
 
 
-    public  void revalAnimationRemove( ) {
+    private void revalAnimationRemove() {
         int cx = (plusFav.getWidth())/2;
         int cy = (plusFav.getHeight())/2;
         float finalRadius =  Math.max(plusFav.getWidth(), plusFav.getHeight());

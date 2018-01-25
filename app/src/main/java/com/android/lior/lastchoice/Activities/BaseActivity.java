@@ -17,8 +17,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutResource());
-//        getSupportActionBar().setLogo(R.mipmap.ic_launcher);
-        //     getSupportActionBar().setDisplayUseLogoEnabled(true);
+
         createToolBar();
     }
 
@@ -26,12 +25,14 @@ public abstract class BaseActivity extends AppCompatActivity {
 
 
     private void createToolBar() {
-        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         if (toolbar != null) {
 
             setSupportActionBar(toolbar);
+
             getSupportActionBar().setDisplayShowTitleEnabled(false);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         }
 
     }
@@ -47,7 +48,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
-   return true;
+        return true;
     }
 
     @Override

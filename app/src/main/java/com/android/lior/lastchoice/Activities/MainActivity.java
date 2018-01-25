@@ -11,15 +11,14 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -31,33 +30,25 @@ import com.android.lior.lastchoice.Utilities.NetworkUtil;
 import com.android.lior.lastchoice.Utilities.QueryJsonUtil;
 import com.android.lior.lastchoice.Utilities.ToastUtil;
 
-import org.json.JSONException;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 
 
 public class MainActivity extends BaseActivity implements LoaderManager.LoaderCallbacks< ArrayList<MovieObject>> ,ToolBarInterface {
-    public boolean isBusy = false;
+    private static final String TAG ="MainActivity";
+    private boolean isBusy = false;
     private ProgressBar pB;
     private EditText query;
-    private static String queryString = "";
     private static final int LOADERID = 3233;
-    private Button makeQueryButton;
-    private TextView textView;
-    public String[] queryList = new String[2];
-    private ImageView imageView;
-    private final static String ERRORINRESPONSE = "N/A";
     private final static String ERRORMESSAGE = "No matches found! Please try again";
-    public Context context;
-    private MenuItem search;
-    Boolean iSnetworkAvilabale;
+    private Context context;
+    private Boolean iSnetworkAvilabale;
 
 
     @Override
     public void onBackPressed() {
-       finish();
+        finish();
 
     }
 
@@ -72,18 +63,22 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
         context = this;
         query = findViewById(R.id.Query);
         checkIfConnectedToInternet();
-        textView = findViewById(R.id.textHomeScreen);
-        // makeQueryButton = (Button) findViewById(R.id.button);
-        imageView = findViewById(R.id.imageView);
         pB = findViewById(R.id.progressBar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        if(toolbar!=null) {
+
+            setSupportActionBar(toolbar);
+            toolbar.setTitleTextColor(getResources().getColor(R.color.colorAccent));
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            getSupportActionBar().setDisplayShowTitleEnabled(true);
+        }
+
+
         pB.setVisibility(View.GONE);
         getSupportLoaderManager().initLoader(LOADERID, null, this);
 
-        View myView = new View(context);
-        myView.requestFocus();
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+//        View myView = new View(context);
+//        myView.requestFocus();
+//        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         query.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -105,9 +100,9 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
 
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public void performQuery() {
+    private void performQuery() {
 
-        queryString = query.getText().toString();
+        String queryString = query.getText().toString();
         URL searchQueryTaste = NetworkUtil.buildUrlTaste(queryString);
 
         Bundle bundle = new Bundle();
@@ -140,7 +135,6 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
                 if (bundle == null) {
                     return;
                 }
-                //TODO: Add progressBar
 
                 forceLoad();
                 pB.setVisibility(View.VISIBLE);
@@ -165,8 +159,8 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
 //                Context context =getApplicationContext();
 //                ToastUti
                 if(iSnetworkAvilabale) {
-             //   ToastUtil.createToast(getString(R.string.errorConnecting),context);
-               // }else {
+                    //   ToastUtil.createToast(getString(R.string.errorConnecting),context);
+                    // }else {
                     ToastUtil.createToast(ERRORMESSAGE, context);
 
                 }
@@ -190,23 +184,25 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
                     Boolean isHttp = false;
                     URL queryURLTaste = new URL(searchQueryUrlTaste);
                     try {
-                        String queryResultsTaste = NetworkUtil.getResponsefromUrl(queryURLTaste, isHttp);
+                        String queryResultsTaste = NetworkUtil.getResponsefromUrl(queryURLTaste,isHttp,context);
 
 
                         movieObjects = queryJsonUtil.getJsonStrings(queryResultsTaste);
                     }catch (Exception e){
-                     //   ToastUtil.createToast("Error connecting, please check your internet connection",getApplicationContext());
+                        Log.e(TAG,"Error" +e.getMessage());
+                        //   ToastUtil.createToast("Error connecting, please check your internet connection",getApplicationContext());
                         cancelLoadInBackground();
                     }
 
 
 
                     if (movieObjects != null) {
-
+                        isHttp=true;
 
                         for (int i = 0; i < movieObjects.size(); i++) {
+
                             URL searchQueryExtra = NetworkUtil.buildUrlExtraData(movieObjects.get(i).getMovieName());
-                            String queryResultsExtra = NetworkUtil.getResponsefromUrl(searchQueryExtra, isHttp = true);
+                            String queryResultsExtra = NetworkUtil.getResponsefromUrl(searchQueryExtra,isHttp,context);
                             MovieObject movieObject;
                             movieObject = queryJsonUtil.getJsonStringsExtra(queryResultsExtra);
                             movieObjects.get(i).setMoviePoster(movieObject.getMoviePoster());
@@ -220,6 +216,7 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
 
 
                 } catch (IOException e) {
+
                     e.printStackTrace();
                     return null;
                 }
@@ -257,7 +254,7 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
 
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public void buttonClick(View view) {
+    public void buttonClick() {
         performQuery();
     }
 
@@ -270,32 +267,14 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        search = menu.findItem(R.id.searchIcon);
+        MenuItem search = menu.findItem(R.id.searchIcon);
         search.setVisible(false);
 
         return true;
     }
 
 
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case R.id.searchIcon:
-//                Intent intent = new Intent(this, MainActivity.class);
-//                startActivity(intent);
-//                return true;
-//            case R.id.favIcon:
-//                Intent intentFav = new Intent(this, FavActivity.class);
-//                startActivity(intentFav);
-//                return true;
-//
-//
-//            default:
-//                return super.onOptionsItemSelected(item);
-//        }
-//    }
-
-    public Boolean checkIfConnectedToInternet() {
+    private Boolean checkIfConnectedToInternet() {
 
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
@@ -306,7 +285,7 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
             Boolean isConnected=  networkInfo != null &&
                     networkInfo.isConnectedOrConnecting();
             if(!isConnected){
-                DialogUtil.createDialog(context,getString(R.string.connectivtyMessage) ,getString(R.string.oops),getString(R.string.confirmMessage));
+                DialogUtil.createDialog(context,getString(R.string.connectivtyMessage) , getString(R.string.confirmMessage));
                 iSnetworkAvilabale=false;
                 return false;
             }else{

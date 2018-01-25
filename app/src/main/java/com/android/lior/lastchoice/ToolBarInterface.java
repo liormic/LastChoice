@@ -7,7 +7,8 @@ import android.view.MenuItem;
  * Created by Lior on 1/11/2018.
  */
 
-public interface ToolBarInterface {
+@SuppressWarnings("DefaultFileTemplate")
+public  interface ToolBarInterface {
 
 
      boolean onCreateOptionsMenu(Menu menu);

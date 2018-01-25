@@ -1,5 +1,7 @@
 package com.android.lior.lastchoice.Utilities;
 
+import android.util.Log;
+
 import com.android.lior.lastchoice.Data.MovieObject;
 
 import org.json.JSONArray;
@@ -8,16 +10,18 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import static android.content.ContentValues.TAG;
+
 /**
  * Created by lior on 12/24/17.
  */
 
+@SuppressWarnings("DefaultFileTemplate")
 public class QueryJsonUtil {
 
     private static final String MOVIE_NAME="Name";
     private static final String MOVIE_DESCRIPTION="wTeaser";
     private static final String MOVIE_TRAILER = "yUrl";
-    private static final String Results ="Results";
     private static final String MOVIE_POSTER="Poster";
     private static final String MOVIE_RATING="imdbRating";
     private JSONObject object;
@@ -37,7 +41,7 @@ public class QueryJsonUtil {
             try {
                 object = jsonArray.getJSONObject(i);
             }catch (JSONException e){
-
+                Log.e(TAG,"Error" +e.getMessage());
             }
             String movieName = object.getString(MOVIE_NAME);
 
@@ -49,29 +53,29 @@ public class QueryJsonUtil {
         }
 
         return movieObjects;
-       }
+    }
 
-       public MovieObject getJsonStringsExtra (String resultsFromJsonExtra) {
-           MovieObject movieObject = null;
+    public MovieObject getJsonStringsExtra (String resultsFromJsonExtra) {
+        MovieObject movieObject = null;
 //           if(resultsFromJsonExtra=="N/A"){
 //
 //           }
-           try {
+        try {
 
-               JSONObject jsonObjectExtra = new JSONObject(resultsFromJsonExtra);
-               String moviePoster = jsonObjectExtra.getString(MOVIE_POSTER);
-               String movieRating = jsonObjectExtra.getString(MOVIE_RATING);
+            JSONObject jsonObjectExtra = new JSONObject(resultsFromJsonExtra);
+            String moviePoster = jsonObjectExtra.getString(MOVIE_POSTER);
+            String movieRating = jsonObjectExtra.getString(MOVIE_RATING);
 
-               movieObject = new MovieObject(null, null, null, moviePoster, movieRating);
+            movieObject = new MovieObject(null, null, null, moviePoster, movieRating);
 
-           } catch (JSONException e) {
-               return movieObject= new MovieObject(null,null,null,"N/A","N/A");
-           }
-           return movieObject;
-       }
-
-
+        } catch (JSONException e) {
+            return movieObject= new MovieObject(null,null,null,"N/A","N/A");
+        }
+        return movieObject;
     }
+
+
+}
 
 
 

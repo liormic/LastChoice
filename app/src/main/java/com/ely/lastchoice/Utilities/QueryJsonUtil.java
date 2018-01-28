@@ -1,8 +1,8 @@
-package com.android.lior.lastchoice.Utilities;
+package com.ely.lastchoice.Utilities;
 
 import android.util.Log;
 
-import com.android.lior.lastchoice.Data.MovieObject;
+import com.ely.lastchoice.Data.MovieObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;

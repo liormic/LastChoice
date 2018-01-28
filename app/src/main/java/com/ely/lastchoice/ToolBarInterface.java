@@ -1,4 +1,4 @@
-package com.android.lior.lastchoice;
+package com.ely.lastchoice;
 
 import android.view.Menu;
 import android.view.MenuItem;

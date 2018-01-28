@@ -1,4 +1,4 @@
-package com.android.lior.lastchoice.Utilities;
+package com.ely.lastchoice.Utilities;
 
 import android.app.AlertDialog;
 import android.content.Context;

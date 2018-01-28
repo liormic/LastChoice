@@ -1,4 +1,4 @@
-package com.android.lior.lastchoice.Data;
+package com.ely.lastchoice.Data;
 
 import android.content.ContentValues;
 import android.content.Context;

@@ -1,4 +1,4 @@
-package com.android.lior.lastchoice.Utilities;
+package com.ely.lastchoice.Utilities;
 
 import android.app.Activity;
 import android.content.Context;
@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.lior.lastchoice.R;
+import com.ely.lastchoice.R;
 
 /**
  * Created by lior on 1/3/18.

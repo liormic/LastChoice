@@ -1,4 +1,4 @@
-package com.android.lior.lastchoice.Activities;
+package com.ely.lastchoice.Activities;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -18,11 +18,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
 
-import com.android.lior.lastchoice.Adapters.MovieAdapter;
-import com.android.lior.lastchoice.Data.ContractDB;
-import com.android.lior.lastchoice.Data.DBoperations;
-import com.android.lior.lastchoice.Data.MovieObject;
-import com.android.lior.lastchoice.R;
+import com.ely.lastchoice.Adapters.MovieAdapter;
+import com.ely.lastchoice.Data.ContractDB;
+import com.ely.lastchoice.Data.DBoperations;
+import com.ely.lastchoice.Data.MovieObject;
+import com.ely.lastchoice.R;
 
 import java.util.ArrayList;
 import java.util.Timer;

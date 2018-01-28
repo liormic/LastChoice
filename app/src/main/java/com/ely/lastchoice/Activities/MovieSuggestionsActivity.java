@@ -1,4 +1,4 @@
-package com.android.lior.lastchoice.Activities;
+package com.ely.lastchoice.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,10 +6,10 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.android.lior.lastchoice.Adapters.MovieAdapter;
-import com.android.lior.lastchoice.Data.MovieObject;
-import com.android.lior.lastchoice.R;
-import com.android.lior.lastchoice.ToolBarInterface;
+import com.ely.lastchoice.Adapters.MovieAdapter;
+import com.ely.lastchoice.Data.MovieObject;
+import com.ely.lastchoice.R;
+import com.ely.lastchoice.ToolBarInterface;
 
 import java.util.ArrayList;
 

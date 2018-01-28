@@ -1,4 +1,4 @@
-package com.android.lior.lastchoice.Activities;
+package com.ely.lastchoice.Activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -22,13 +22,13 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.android.lior.lastchoice.Data.MovieObject;
-import com.android.lior.lastchoice.R;
-import com.android.lior.lastchoice.ToolBarInterface;
-import com.android.lior.lastchoice.Utilities.DialogUtil;
-import com.android.lior.lastchoice.Utilities.NetworkUtil;
-import com.android.lior.lastchoice.Utilities.QueryJsonUtil;
-import com.android.lior.lastchoice.Utilities.ToastUtil;
+import com.ely.lastchoice.Data.MovieObject;
+import com.ely.lastchoice.R;
+import com.ely.lastchoice.ToolBarInterface;
+import com.ely.lastchoice.Utilities.DialogUtil;
+import com.ely.lastchoice.Utilities.NetworkUtil;
+import com.ely.lastchoice.Utilities.QueryJsonUtil;
+import com.ely.lastchoice.Utilities.ToastUtil;
 
 import java.io.IOException;
 import java.net.URL;

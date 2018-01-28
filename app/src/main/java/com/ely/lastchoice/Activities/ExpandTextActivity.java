@@ -1,11 +1,11 @@
-package com.android.lior.lastchoice.Activities;
+package com.ely.lastchoice.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import com.android.lior.lastchoice.Data.MovieObject;
-import com.android.lior.lastchoice.R;
+import com.ely.lastchoice.Data.MovieObject;
+import com.ely.lastchoice.R;
 
 public class ExpandTextActivity extends BaseActivity {
 

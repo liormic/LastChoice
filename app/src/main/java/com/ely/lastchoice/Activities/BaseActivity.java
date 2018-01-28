@@ -1,4 +1,4 @@
-package com.android.lior.lastchoice.Activities;
+package com.ely.lastchoice.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,7 +8,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import com.android.lior.lastchoice.R;
+import com.ely.lastchoice.R;
 
 public abstract class BaseActivity extends AppCompatActivity {
     Toolbar toolbar;

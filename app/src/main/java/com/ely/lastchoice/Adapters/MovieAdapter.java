@@ -1,4 +1,4 @@
-package com.android.lior.lastchoice.Adapters;
+package com.ely.lastchoice.Adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -8,8 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.lior.lastchoice.Data.MovieObject;
-import com.android.lior.lastchoice.R;
+import com.ely.lastchoice.Data.MovieObject;
+import com.ely.lastchoice.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.android.lior.lastchoice.Utilities;
+package com.ely.lastchoice.Utilities;
 
 import android.content.Context;
 import android.net.Uri;
@@ -6,8 +6,8 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
 
-import com.android.lior.lastchoice.BuildConfig;
-import com.android.lior.lastchoice.R;
+import com.ely.lastchoice.BuildConfig;
+import com.ely.lastchoice.R;
 
 import java.io.BufferedReader;
 import java.io.IOException;

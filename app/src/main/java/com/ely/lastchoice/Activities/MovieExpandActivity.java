@@ -1,4 +1,4 @@
-package com.android.lior.lastchoice.Activities;
+package com.ely.lastchoice.Activities;
 
 import android.animation.Animator;
 import android.content.Context;
@@ -21,12 +21,12 @@ import android.webkit.WebSettings;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.lior.lastchoice.Data.DBoperations;
-import com.android.lior.lastchoice.Data.MovieObject;
-import com.android.lior.lastchoice.R;
-import com.android.lior.lastchoice.ToolBarInterface;
-import com.android.lior.lastchoice.Utilities.ToastUtil;
-import com.android.lior.lastchoice.databinding.ActivityMovieExpandBinding;
+import com.ely.lastchoice.Data.DBoperations;
+import com.ely.lastchoice.Data.MovieObject;
+import com.ely.lastchoice.R;
+import com.ely.lastchoice.ToolBarInterface;
+import com.ely.lastchoice.Utilities.ToastUtil;
+import com.ely.lastchoice.databinding.ActivityMovieExpandBinding;
 import com.squareup.picasso.Picasso;
 
 public class MovieExpandActivity extends AppCompatActivity implements ToolBarInterface {
@@ -45,10 +45,8 @@ public class MovieExpandActivity extends AppCompatActivity implements ToolBarInt
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // setContentView(R.layout.activity_movie_expand);
         movieExpandBinding = DataBindingUtil.setContentView(this, R.layout.activity_movie_expand);
         Intent intent = getIntent();
-       // int position =intent.getIntExtra("position",1);
         Toolbar toolbar = findViewById(R.id.toolbar);
         if (toolbar != null) {
 
